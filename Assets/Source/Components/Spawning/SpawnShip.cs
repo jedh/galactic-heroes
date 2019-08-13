@@ -8,5 +8,8 @@ namespace GH.Components
     [Serializable]
     public struct SpawnShip : IComponentData
     {
+        public float3 Position;
+
+        public quaternion Rotation;
     }
 }

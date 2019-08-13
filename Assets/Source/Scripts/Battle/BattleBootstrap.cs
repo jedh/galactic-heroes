@@ -1,4 +1,5 @@
-﻿using GH.SystemGroups;
+﻿using GH.Components;
+using GH.SystemGroups;
 using GH.Systems;
 using Unity.Entities;
 using UnityEngine;
@@ -20,8 +21,8 @@ namespace GH.Scripts
             var entityManager = World.Active.EntityManager;
             var battleEntity = entityManager.CreateEntity();
             entityManager.SetName(battleEntity, "Battle Entity");
-            //entityManager.AddComponentData(battleEntity, default(BattleState));
-            //entityManager.AddComponentData(battleEntity, default(BattleLevelSetup));
+            entityManager.AddSharedComponentData(battleEntity, default(SharedBattleLevel));
+            entityManager.AddComponentData(battleEntity, default(BattleLevelSetup));
 
             // The top level component group for all battle systems.
             m_BattleSystemGroup = World.Active.GetOrCreateSystem<BattleSystemGroup>();
