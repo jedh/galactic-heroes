@@ -4,21 +4,28 @@ using UnityEngine;
 
 namespace GH.Data
 {
-    [CreateAssetMenu(fileName = "ship_specs", menuName = "GH/Ship Specs")]
-    public class ShipSpecData : ScriptableObject
-    {
-        public string ID;
+	[CreateAssetMenu(fileName = "ship_specs", menuName = "GH/Ship Specs")]
+	public class ShipSpecData : ScriptableObject
+	{
+		public int ID;
 
-        public float Speed;
+		public string NameID;
 
-        public float TurnSpeed;
+		public float Speed;
 
-        public float Hull;
+		public float TurnSpeed;
 
-        public float Shields;
+		public float Hull;
 
-        public float ShieldRechargeRate;
+		public float Shields;
 
-        public int CrewCount;
-    }
+		public float ShieldRechargeRate;
+
+		public int CrewCount;
+
+		private void Awake()
+		{
+			ID = GetHashCode();
+		}
+	}
 }

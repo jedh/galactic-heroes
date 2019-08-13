@@ -6,12 +6,8 @@ using Unity.Mathematics;
 namespace GH.Components
 {
 	[Serializable]
-	public struct SpawnShip : IComponentData
+	public struct BattleMapState : IComponentData
 	{
-		public int ShipID;
 
-		public float3 Position;
-
-		public quaternion Rotation;
 	}
 }
