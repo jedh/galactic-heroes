@@ -192,9 +192,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b8e482c740333745a0ea922c5095d8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShipPrefab: {fileID: 4489931509791283523, guid: c62e7ce022e72b94ba44f363b4d01257,
-    type: 3}
-  ShipViewDataAssets: []
+  ShipViewDataAssets:
+  - {fileID: 11400000, guid: 55ee66708e1e48047a8d66f3fd80feab, type: 2}
 --- !u!4 &617426481
 Transform:
   m_ObjectHideFlags: 0
@@ -343,7 +342,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 008368ebf6464e74eabba203ce438aa0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShipID: 0
+  ShipData: {fileID: 11400000, guid: c420cd19726acb8429bf03ea455a1bc1, type: 2}
+  Faction: 0
 --- !u!4 &2007571237
 Transform:
   m_ObjectHideFlags: 0

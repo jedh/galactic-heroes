@@ -5,7 +5,7 @@ using UnityEngine;
 namespace GH.Data
 {
 	[CreateAssetMenu(fileName = "ship_specs", menuName = "GH/Ship Specs")]
-	public class ShipSpecData : ScriptableObject
+	public class ShipSpecsData : ScriptableObject
 	{
 		public int ID;
 
@@ -25,7 +25,7 @@ namespace GH.Data
 
 		private void Awake()
 		{
-			ID = GetHashCode();
+			ID = GetHashCode();            
 		}
 	}
 }

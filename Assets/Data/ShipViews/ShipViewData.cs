@@ -7,7 +7,7 @@ namespace GH.Data
 	[CreateAssetMenu(fileName = "ship_view", menuName = "GH/Ship View")]
 	public class ShipViewData : ScriptableObject
 	{
-		public string NameID;
+		public ShipSpecsData ShipSpecs;
 
 		public GameObject ViewPrefab;
 	}

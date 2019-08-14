@@ -8,6 +8,10 @@ namespace GH.Components
     [Serializable]
     public struct Ship : IComponentData
     {
+        // Non-unique ship ID (ship type).
         public int ID;
+
+        // Unique ship ID.
+        public int InstanceID;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using GH.Components;
+using GH.Data;
 using GH.SystemGroups;
 using Unity.Burst;
 using Unity.Collections;
@@ -31,17 +32,20 @@ namespace GH.Systems
 		}
 
 		protected override void OnUpdate()
-		{
-			Debug.Log("Adding views...");
+		{			
 			Entities.WithAll<View>().WithNone<ViewState>().ForEach((Entity entity, ref Ship ship) =>
 			{
-				var go = Object.Instantiate(m_AssetManager.ShipPrefab);
-				go.name = $"Ship{ship.ID}";
-				go.transform.SetParent(m_ViewContainer, false);
+                ShipViewData shipViewData;
+                if (m_AssetManager.ShipViewDataMap.TryGetValue(ship.ID, out shipViewData))
+                {
+                    var go = Object.Instantiate(shipViewData.ViewPrefab);
+                    go.name = $"Ship{ship.InstanceID}";
+                    go.transform.SetParent(m_ViewContainer, false);
 
-				var viewSync = go.AddComponent<ViewSync>();
-				//viewSync.ViewGO = go;
-				PostUpdateCommands.AddComponent(entity, default(ViewState));
+                    var viewSync = go.AddComponent<ViewSync>();
+                    //viewSync.ViewGO = go;
+                    PostUpdateCommands.AddComponent(entity, default(ViewState));
+                }                
 			});
 		}
 	}

@@ -22,11 +22,13 @@ namespace GH.Systems
                 var spawnedEntity = PostUpdateCommands.CreateEntity();
                 PostUpdateCommands.AddComponent(spawnedEntity, new Translation() { Value = spawnShip.Position });
                 PostUpdateCommands.AddComponent(spawnedEntity, new Rotation() { Value = spawnShip.Rotation });
-                PostUpdateCommands.AddComponent(spawnedEntity, new Ship() { ID = m_SpawnCounter });
-                //PostUpdateCommands.AddComponent(spawnedEntity, new View());
-                m_SpawnCounter++;
+                PostUpdateCommands.AddComponent(spawnedEntity, new Ship() { ID = spawnShip.ShipID, InstanceID = m_SpawnCounter });
+                PostUpdateCommands.AddComponent(spawnedEntity, new View());
+                PostUpdateCommands.AddSharedComponent(spawnedEntity, new SharedFaction() { Faction = spawnShip.Faction });                
                 PostUpdateCommands.AddComponent(entity, default(SpawnEntityState));
                 PostUpdateCommands.DestroyEntity(entity);
+
+                m_SpawnCounter++;
             });
         }
     }

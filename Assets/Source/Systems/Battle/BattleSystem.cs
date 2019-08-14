@@ -1,6 +1,7 @@
 ﻿using GH.Enums;
 using GH.SystemGroups;
 using Unity.Entities;
+using UnityEngine;
 
 namespace GH.Systems
 {
@@ -9,25 +10,25 @@ namespace GH.Systems
     {
         public EBattlePhases CurrentPhase = EBattlePhases.Unknown;
 
-        //private SpawnBattleEntitiesSystem m_SpawnBattleEntitiesSystem;
+        private SpawnBattleEntitiesSystem m_SpawnBattleEntitiesSystem;
 
         protected override void OnStartRunning()
         {
-            //m_SpawnBattleEntitiesSystem = World.Active.GetExistingSystem<SpawnBattleEntitiesSystem>();
+            m_SpawnBattleEntitiesSystem = World.Active.GetExistingSystem<SpawnBattleEntitiesSystem>();
         }
 
         protected override void OnUpdate()
         {
-            //if (CurrentPhase == EBattlePhases.Setup && m_SpawnBattleEntitiesSystem.IsFinished)
-            //{
-            //    CurrentPhase = EBattlePhases.Order;
-            //    Debug.Log("Battle is setup, moving to order phase.");
+            if (CurrentPhase == EBattlePhases.Setup && m_SpawnBattleEntitiesSystem.IsFinished)
+            {
+                CurrentPhase = EBattlePhases.Execution;
+                Debug.Log("Battle is setup, moving to order phase.");
 
-            //    Entities.WithAll<CrewMember>().WithNone<CrewInput>().ForEach((Entity entity) =>
-            //    {
-            //        PostUpdateCommands.AddComponent(entity, default(CrewInput));
-            //    });
-            //}
+                //Entities.WithAll<CrewMember>().WithNone<CrewInput>().ForEach((Entity entity) =>
+                //{
+                //    PostUpdateCommands.AddComponent(entity, default(CrewInput));
+                //});
+            }
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GH.Data;
+using GH.Enums;
+using System;
 using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Entities;
@@ -12,8 +14,9 @@ namespace GH.Components
 	[Serializable]
 	public class SpawnShipAuthoring : MonoBehaviour, IConvertGameObjectToEntity, IDeclareReferencedPrefabs
 	{
-		[Tooltip("The id used for asset lookups NOT the instance id of an individual ship.")]
-		public int ShipID;
+        public ShipSpecsData ShipData;
+
+        public EFactions Faction;
 
 		public void DeclareReferencedPrefabs(List<GameObject> referencedPrefabs)
 		{
@@ -23,7 +26,8 @@ namespace GH.Components
 		{
 			var spawnShip = new SpawnShip()
 			{
-				ShipID = ShipID,
+				ShipID = ShipData.ID,
+                Faction = Faction,
 				Position = transform.position,
 				Rotation = transform.rotation
 			};

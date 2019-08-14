@@ -9,7 +9,7 @@ namespace GH.Systems
     [UpdateAfter(typeof(SpawnBattleMapSystem))]
     public class SpawnBattleEntitiesSystem : ComponentSystem
     {
-        private int m_SpawingEntityCount = 0;
+        private int m_SpawningEntityCount = 0;
         private int m_EntitySpawnedCount = 0;
 
         public bool IsFinished { get; private set; } = false;
@@ -21,7 +21,7 @@ namespace GH.Systems
             {
                 PostUpdateCommands.AddComponent(entity, default(SpawnEntity));
                 Debug.Log("spawn starting");
-                m_SpawingEntityCount++;
+                m_SpawningEntityCount++;
             });
 
             // TODO: Query for SpawnEntityState which don't have corresponding SpawnEntity.
@@ -32,7 +32,7 @@ namespace GH.Systems
                 PostUpdateCommands.RemoveComponent(entity, typeof(SpawnEntityState));
             });
 
-            if (m_EntitySpawnedCount == m_SpawingEntityCount)
+            if (m_EntitySpawnedCount == m_SpawningEntityCount)
             {
                 Debug.Log("All entities have been spawned.");
                 IsFinished = true;

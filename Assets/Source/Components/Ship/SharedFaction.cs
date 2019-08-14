@@ -6,15 +6,9 @@ using Unity.Mathematics;
 
 namespace GH.Components
 {
-	[Serializable]
-	public struct SpawnShip : IComponentData
-	{
-		public int ShipID;
-
+    [Serializable]
+    public struct SharedFaction : ISharedComponentData
+    {
         public EFactions Faction;
-
-		public float3 Position;
-
-		public quaternion Rotation;        
-	}
+    }
 }
