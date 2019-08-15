@@ -6,9 +6,9 @@ using Unity.Mathematics;
 
 namespace GH.Components
 {
-    [Serializable]
-    public struct SharedFaction : ISharedComponentData
-    {
-        public EFactions Faction;
-    }
+	[Serializable]
+	public struct SharedFactionGrouping : ISharedComponentData
+	{
+		public EFactions Faction;
+	}
 }

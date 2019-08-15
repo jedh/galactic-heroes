@@ -43,25 +43,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2561ac9551528ef449695cc8439124aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MinStars: 0
-  MaxStars: 0
-  MinScale: 0
-  MaxScale: 0
+  MinStars: 250
+  MaxStars: 600
+  MinScale: 0.25
+  MaxScale: 1
   ColorRange:
     serializedVersion: 2
-    key0: {r: 1, g: 1, b: 1, a: 1}
-    key1: {r: 1, g: 1, b: 1, a: 1}
-    key2: {r: 0, g: 0, b: 0, a: 0}
-    key3: {r: 0, g: 0, b: 0, a: 0}
-    key4: {r: 0, g: 0, b: 0, a: 0}
+    key0: {r: 0.5235849, g: 1, b: 0.7982242, a: 1}
+    key1: {r: 0.5424528, g: 0.9736491, b: 1, a: 1}
+    key2: {r: 1, g: 1, b: 0.8160377, a: 0}
+    key3: {r: 1, g: 1, b: 0.9673729, a: 0}
+    key4: {r: 1, g: 1, b: 1, a: 0}
     key5: {r: 0, g: 0, b: 0, a: 0}
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
-    ctime1: 65535
-    ctime2: 0
-    ctime3: 0
-    ctime4: 0
+    ctime1: 4819
+    ctime2: 10023
+    ctime3: 18119
+    ctime4: 65535
     ctime5: 0
     ctime6: 0
     ctime7: 0
@@ -74,7 +74,7 @@ MonoBehaviour:
     atime6: 0
     atime7: 0
     m_Mode: 0
-    m_NumColorKeys: 2
+    m_NumColorKeys: 5
     m_NumAlphaKeys: 2
   m_StarObject: {fileID: 7806639866486966982, guid: 8f6d2be60c045d148861563bc2865920,
     type: 3}

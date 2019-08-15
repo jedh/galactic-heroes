@@ -32,20 +32,18 @@ namespace GH.Systems
 		}
 
 		protected override void OnUpdate()
-		{			
+		{
 			Entities.WithAll<View>().WithNone<ViewState>().ForEach((Entity entity, ref Ship ship) =>
 			{
-                ShipViewData shipViewData;
-                if (m_AssetManager.ShipViewDataMap.TryGetValue(ship.ID, out shipViewData))
-                {
-                    var go = Object.Instantiate(shipViewData.ViewPrefab);
-                    go.name = $"Ship{ship.InstanceID}";
-                    go.transform.SetParent(m_ViewContainer, false);
-
-                    var viewSync = go.AddComponent<ViewSync>();
-                    //viewSync.ViewGO = go;
-                    PostUpdateCommands.AddComponent(entity, default(ViewState));
-                }                
+				ShipViewData shipViewData;
+				if (m_AssetManager.ShipViewDataMap.TryGetValue(ship.ID, out shipViewData))
+				{
+					var go = Object.Instantiate(shipViewData.ViewPrefab, m_ViewContainer, false);
+					go.name = $"Ship{ship.InstanceID}";
+					var viewSync = go.AddComponent<ViewSync>();
+					PostUpdateCommands.AddComponent(entity, default(ViewState));
+					EntityManager.AddComponentObject(entity, viewSync);
+				}
 			});
 		}
 	}

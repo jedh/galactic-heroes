@@ -1,9 +1,11 @@
-﻿using Unity.Burst;
+﻿using GH.Components;
+using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Mathematics;
 using Unity.Transforms;
+using UnityEngine;
 using static Unity.Mathematics.math;
 
 namespace GH.Systems
@@ -12,6 +14,12 @@ namespace GH.Systems
 	{
 		protected override void OnUpdate()
 		{
+			Entities.WithAll<Ship, View>().ForEach((ViewSync viewSync, ref Translation translation, ref Rotation rotation) =>
+			{
+				Debug.Log("Update");
+				viewSync.transform.position = translation.Value;
+				viewSync.transform.rotation = rotation.Value;
+			});
 		}
 	}
 }
