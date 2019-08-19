@@ -11,10 +11,18 @@ namespace GH.Components
 	{
 		public int ShipID;
 
-        public EFactions Faction;
+		public EFactions Faction;
 
 		public float3 Position;
 
-		public quaternion Rotation;        
+		public quaternion Rotation;
+
+		public float TopSpeed;
+
+		public float RotationSpeed;
+
+		public float Acceleration;
+
+		public float Deceleration;
 	}
 }

@@ -14,9 +14,9 @@ namespace GH.Components
 	[Serializable]
 	public class SpawnShipAuthoring : MonoBehaviour, IConvertGameObjectToEntity, IDeclareReferencedPrefabs
 	{
-        public ShipSpecsData ShipData;
+		public ShipSpecsData ShipData;
 
-        public EFactions Faction;
+		public EFactions Faction;
 
 		public void DeclareReferencedPrefabs(List<GameObject> referencedPrefabs)
 		{
@@ -27,9 +27,13 @@ namespace GH.Components
 			var spawnShip = new SpawnShip()
 			{
 				ShipID = ShipData.ID,
-                Faction = Faction,
+				Faction = Faction,
 				Position = transform.position,
-				Rotation = transform.rotation
+				Rotation = transform.rotation,
+				TopSpeed = ShipData.TopSpeed,
+				RotationSpeed = ShipData.RotationSpeed,
+				Acceleration = 0f,
+				Deceleration = 0f
 			};
 
 			dstManager.AddComponentData(entity, spawnShip);

@@ -11,9 +11,9 @@ namespace GH.Data
 
 		public string NameID;
 
-		public float Speed;
+		public float TopSpeed;
 
-		public float TurnSpeed;
+		public float RotationSpeed;
 
 		public float Hull;
 
@@ -25,7 +25,7 @@ namespace GH.Data
 
 		private void Awake()
 		{
-			ID = GetHashCode();            
+			ID = GetHashCode();
 		}
 	}
 }
