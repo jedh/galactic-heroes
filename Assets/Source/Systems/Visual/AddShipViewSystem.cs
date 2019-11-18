@@ -19,12 +19,12 @@ namespace GH.Systems
 	{
 		Transform m_ViewContainer;
 		AssetManager m_AssetManager;
-        Dictionary<int, RenderMesh> m_ShipRenderMeshMap;
+		Dictionary<int, RenderMesh> m_ShipRenderMeshMap;
 
 		protected override void OnCreate()
 		{
-            //m_ViewContainer = new GameObject("GameViews").transform;
-            m_ShipRenderMeshMap = new Dictionary<int, RenderMesh>();
+			//m_ViewContainer = new GameObject("GameViews").transform;
+			m_ShipRenderMeshMap = new Dictionary<int, RenderMesh>();
 		}
 
 		protected override void OnStartRunning()
@@ -37,31 +37,31 @@ namespace GH.Systems
 
 		protected override void OnUpdate()
 		{
-			Entities.WithAll<View>().WithNone<ViewState>().ForEach((Entity entity, ref Ship ship) =>
+			Entities.WithNone<ViewState>().ForEach((Entity entity, ref Ship ship) =>
 			{
 				ShipViewData shipViewData;
 				if (m_AssetManager.ShipViewDataMap.TryGetValue(ship.ID, out shipViewData))
 				{
-                    RenderMesh renderMesh;
-                    if (!m_ShipRenderMeshMap.TryGetValue(ship.ID, out renderMesh))
-                    {
-                        renderMesh = new RenderMesh()
-                        {
-                            castShadows = UnityEngine.Rendering.ShadowCastingMode.Off,
-                            layer = shipViewData.Mesh.sortingLayerID,
-                            material = shipViewData.Mesh.sharedMaterial,
-                            mesh = shipViewData.Filter.sharedMesh,
-                            receiveShadows = false,
-                            subMesh = shipViewData.Mesh.subMeshStartIndex
-                        };
-                    }
+					RenderMesh renderMesh;
+					if (!m_ShipRenderMeshMap.TryGetValue(ship.ID, out renderMesh))
+					{
+						renderMesh = new RenderMesh()
+						{
+							castShadows = UnityEngine.Rendering.ShadowCastingMode.Off,
+							layer = shipViewData.Mesh.sortingLayerID,
+							material = shipViewData.Mesh.sharedMaterial,
+							mesh = shipViewData.Filter.sharedMesh,
+							receiveShadows = false,
+							subMesh = shipViewData.Mesh.subMeshStartIndex
+						};
+					}
 
-                    PostUpdateCommands.AddSharedComponent(entity, renderMesh);
+					PostUpdateCommands.AddSharedComponent(entity, renderMesh);
+					PostUpdateCommands.AddComponent(entity, default(ViewState));
 
-                    //var go = Object.Instantiate(shipViewData.ViewPrefab, m_ViewContainer, false);
+					//var go = Object.Instantiate(shipViewData.ViewPrefab, m_ViewContainer, false);
 					//go.name = $"Ship{ship.InstanceID}";
-					//var viewSync = go.AddComponent<ViewSync>();
-					//PostUpdateCommands.AddComponent(entity, default(ViewState));
+					//var viewSync = go.AddComponent<ViewSync>();					
 					//EntityManager.AddComponentObject(entity, viewSync);
 				}
 			});

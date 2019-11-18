@@ -17,7 +17,7 @@ namespace GH.Components
 	{
 		public ShipSpecsData ShipData;
 
-        public ShipViewData ShipView;
+		public ShipViewData ShipView;
 
 		public EFactions Faction;
 
@@ -27,7 +27,7 @@ namespace GH.Components
 
 		public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
 		{
-            var spawnShip = new SpawnShip()
+			var spawnShip = new SpawnShip()
 			{
 				ShipID = ShipData.ID,
 				Faction = Faction,
@@ -36,7 +36,7 @@ namespace GH.Components
 				TopSpeed = ShipData.TopSpeed,
 				RotationSpeed = ShipData.RotationSpeed,
 				Acceleration = 0f,
-				Deceleration = 0f]
+				Deceleration = 0f
 			};
 
 			dstManager.AddComponentData(entity, spawnShip);

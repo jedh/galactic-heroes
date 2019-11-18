@@ -2,9 +2,9 @@
 
 namespace GH.SystemGroups
 {
-    [UpdateInGroup(typeof(BattleSystemGroup))]
-    [DisableAutoCreation]
-    public class BattleRenderingSystemGroup : ComponentSystemGroup
+	[UpdateInGroup(typeof(PresentationSystemGroup))]
+	[DisableAutoCreation]
+	public class BattleRenderingSystemGroup : ComponentSystemGroup
 	{
 
 	}
