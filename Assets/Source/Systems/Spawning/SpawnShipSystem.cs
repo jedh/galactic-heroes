@@ -1,6 +1,7 @@
 ﻿using GH.Components;
 using GH.SystemGroups;
 using Unity.Entities;
+using Unity.Rendering;
 using Unity.Transforms;
 
 namespace GH.Systems
@@ -24,9 +25,9 @@ namespace GH.Systems
 				PostUpdateCommands.AddComponent(spawnedEntity, new Translation() { Value = spawnShip.Position });
 				PostUpdateCommands.AddComponent(spawnedEntity, new Rotation() { Value = spawnShip.Rotation });
 				PostUpdateCommands.AddComponent(spawnedEntity, new Ship() { ID = spawnShip.ShipID, InstanceID = m_SpawnCounter });
-				PostUpdateCommands.AddComponent(spawnedEntity, new View());
 				PostUpdateCommands.AddComponent(spawnedEntity, new MoveSpeed() { Value = 0f });
 				PostUpdateCommands.AddComponent(spawnedEntity, new RotateSpeed() { Value = 0f });
+                PostUpdateCommands.AddComponent(spawnedEntity, new LocalToWorld());
 				PostUpdateCommands.AddComponent(spawnedEntity, new MovementStats()
 				{
 					TopSpeed = spawnShip.TopSpeed,
@@ -35,7 +36,11 @@ namespace GH.Systems
 					RotationSpeed = spawnShip.RotationSpeed
 				});
 
-				PostUpdateCommands.AddSharedComponent(spawnedEntity, new SharedFactionGrouping() { Faction = spawnShip.Faction });
+                // Potentially add this logic in a view adding specific system.
+                PostUpdateCommands.AddComponent(spawnedEntity, new View());
+                //PostUpdateCommands.AddSharedComponent(spawnedEntity, new RenderMesh() {  });
+
+                PostUpdateCommands.AddSharedComponent(spawnedEntity, new SharedFactionGrouping() { Faction = spawnShip.Faction });
 
 				PostUpdateCommands.AddComponent(entity, default(SpawnEntityState));
 				PostUpdateCommands.DestroyEntity(entity);

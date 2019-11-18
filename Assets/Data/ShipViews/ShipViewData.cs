@@ -10,5 +10,9 @@ namespace GH.Data
 		public ShipSpecsData ShipSpecs;
 
 		public GameObject ViewPrefab;
+
+        public MeshRenderer Mesh;
+
+        public MeshFilter Filter;
 	}
 }

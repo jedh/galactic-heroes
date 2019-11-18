@@ -16,7 +16,6 @@ namespace GH.Systems
 		{
 			Entities.WithAll<Ship, View>().ForEach((ViewSync viewSync, ref Translation translation, ref Rotation rotation) =>
 			{
-				Debug.Log("Update");
 				viewSync.transform.position = translation.Value;
 				viewSync.transform.rotation = rotation.Value;
 			});
