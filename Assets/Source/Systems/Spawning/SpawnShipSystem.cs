@@ -37,6 +37,9 @@ namespace GH.Systems
 				});
 
 				PostUpdateCommands.AddSharedComponent(spawnedEntity, new SharedFactionGrouping() { Faction = spawnShip.Faction });
+				PostUpdateCommands.AddSharedComponent(spawnedEntity, new SharedFleetGrouping() { ID = spawnShip.FleetID });
+				PostUpdateCommands.AddSharedComponent(spawnedEntity, new SharedGroupGrouping() { ID = spawnShip.GroupID });
+				PostUpdateCommands.AddSharedComponent(spawnedEntity, new SharedSquadGrouping() { ID = spawnShip.SquadID });
 
 				PostUpdateCommands.AddComponent(entity, default(SpawnEntityState));
 				PostUpdateCommands.DestroyEntity(entity);

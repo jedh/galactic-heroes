@@ -45,6 +45,7 @@ namespace GH.Systems
 					RenderMesh renderMesh;
 					if (!m_ShipRenderMeshMap.TryGetValue(ship.ID, out renderMesh))
 					{
+						Debug.Log("New render mesh");
 						renderMesh = new RenderMesh()
 						{
 							castShadows = UnityEngine.Rendering.ShadowCastingMode.Off,
@@ -54,6 +55,8 @@ namespace GH.Systems
 							receiveShadows = false,
 							subMesh = shipViewData.Mesh.subMeshStartIndex
 						};
+
+						m_ShipRenderMeshMap.Add(ship.ID, renderMesh);
 					}
 
 					PostUpdateCommands.AddSharedComponent(entity, renderMesh);

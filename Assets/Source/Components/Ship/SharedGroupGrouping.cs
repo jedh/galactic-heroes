@@ -6,7 +6,7 @@ using Unity.Mathematics;
 namespace GH.Components
 {
 	[Serializable]
-	public struct SharedFormationGrouping : ISharedComponentData
+	public struct SharedGroupGrouping : ISharedComponentData
 	{
 		public int ID;
 	}
