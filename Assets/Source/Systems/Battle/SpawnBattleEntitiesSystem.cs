@@ -16,16 +16,23 @@ namespace GH.Systems
 
 		protected override void OnUpdate()
 		{
-			// Spawn ships.
-			Entities.WithAll<SpawnShip>().WithNone<SpawnEntity, SpawnEntityState>().ForEach((Entity entity) =>
-			{
-				PostUpdateCommands.AddComponent(entity, default(SpawnEntity));
-				Debug.Log("spawn starting");
-				m_SpawningEntityCount++;
-			});
+            // Spawn ships.
+            Entities.WithAll<SpawnShip>().WithNone<SpawnEntity, SpawnEntityState>().ForEach((Entity entity) =>
+            {
+                PostUpdateCommands.AddComponent(entity, default(SpawnEntity));
+                Debug.Log("spawn starting");
+                m_SpawningEntityCount++;
+            });
 
-			// TODO: Query for SpawnEntityState which don't have corresponding SpawnEntity.
-			Entities.WithAll<SpawnEntityState>().WithNone<SpawnEntity>().ForEach((Entity entity) =>
+            Entities.WithAll<SpawnFleet>().WithNone<SpawnEntity, SpawnEntityState>().ForEach((Entity entity) =>
+            {
+                PostUpdateCommands.AddComponent(entity, default(SpawnEntity));
+                Debug.Log("spawn fleet starting");
+                m_SpawningEntityCount++;
+            });
+
+            // TODO: Query for SpawnEntityState which don't have corresponding SpawnEntity.
+            Entities.WithAll<SpawnEntityState>().WithNone<SpawnEntity>().ForEach((Entity entity) =>
 			{
 				Debug.Log("spawning finished");
 				m_EntitySpawnedCount++;
