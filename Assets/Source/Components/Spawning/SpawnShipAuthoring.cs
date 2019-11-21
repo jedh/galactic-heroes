@@ -35,8 +35,8 @@ namespace GH.Components
 				Rotation = transform.rotation,
 				TopSpeed = ShipData.TopSpeed,
 				RotationSpeed = ShipData.RotationSpeed,
-				Acceleration = 0f,
-				Deceleration = 0f
+				Acceleration = ShipData.Acceleration,
+				Deceleration = ShipData.Deceleration
 			};
 
 			dstManager.AddComponentData(entity, spawnShip);

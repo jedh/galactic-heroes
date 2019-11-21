@@ -20,7 +20,7 @@ namespace GH.Systems
 
                 var ship = new Ship() { ID = spawnFleet.ShipID };
                 var translation = new Translation() { Value = float3.zero };
-                var deploying = new Deploying() { FleetID = spawnFleet.FleetID };
+                var deploy = new Deploy() { FleetID = spawnFleet.FleetID };
                 var rotation = default(Rotation);
                 var moveSpeed = default(MoveSpeed);
                 var rotateSpeed = default(RotateSpeed);
@@ -40,7 +40,7 @@ namespace GH.Systems
                     PostUpdateCommands.AddComponent(shipEntities[i], ship);
                     PostUpdateCommands.AddComponent(shipEntities[i], translation);
                     PostUpdateCommands.AddComponent(shipEntities[i], rotation);
-                    PostUpdateCommands.AddComponent(shipEntities[i], deploying);
+                    PostUpdateCommands.AddComponent(shipEntities[i], deploy);
                     PostUpdateCommands.AddComponent(shipEntities[i], moveSpeed);
                     PostUpdateCommands.AddComponent(shipEntities[i], rotateSpeed);
                     PostUpdateCommands.AddComponent(shipEntities[i], localToWorld);
