@@ -4,7 +4,8 @@ using Unity.Entities;
 namespace GH.Components
 {
     [Serializable]
-    public struct Deploy : IComponentData
+    public struct InitialDeploy : IComponentData
     {
+        public int FleetID;
     }
 }

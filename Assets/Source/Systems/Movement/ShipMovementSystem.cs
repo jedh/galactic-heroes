@@ -10,14 +10,8 @@ namespace GH.Systems
     {
         private const float k_DistanceFromTarget = 0.001f;
 
-
         protected override void OnUpdate()
         {
-            Entities.WithAll<MovementTarget>().WithNone<MoveSpeed>().ForEach((Entity entity) =>
-            {
-                EntityManager.AddComponentData(entity, new MoveSpeed() { Value = 0f });
-            });
-
             Entities.ForEach(
                 (Entity entity, 
                 ref MovementTarget target, 

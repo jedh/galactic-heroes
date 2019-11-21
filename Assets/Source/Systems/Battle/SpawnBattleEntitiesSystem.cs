@@ -39,15 +39,7 @@ namespace GH.Systems
 				PostUpdateCommands.RemoveComponent(entity, typeof(SpawnEntityState));
 			});
 
-            int deployingEntityCount = 0;
-            Entities.WithAll<Deploying>().ForEach((Entity entity) =>
-            {
-                Debug.Log("still deploying");
-                deployingEntityCount++;
-                PostUpdateCommands.RemoveComponent(entity, typeof(SpawnEntityState));
-            });
-
-            if (deployingEntityCount == 0 && m_EntitySpawnedCount == m_SpawningEntityCount)
+            if (m_EntitySpawnedCount == m_SpawningEntityCount)
 			{
 				Debug.Log("All entities have been spawned.");
 				// TODO: Move to a global state object.

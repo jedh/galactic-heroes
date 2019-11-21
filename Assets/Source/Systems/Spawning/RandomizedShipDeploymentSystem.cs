@@ -3,12 +3,11 @@ using GH.SystemGroups;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
-using UnityEngine;
 
 namespace GH.Systems
 {
-    [UpdateInGroup(typeof(BattleSetupSystemGroup))]
-    public class RandomizedShipDeploymentSystem : ComponentSystem
+    [UpdateInGroup(typeof(BattleLogicSystemGroup))]
+    public class RandomizedInitialDeploymentSystem : ComponentSystem
     {
         Unity.Mathematics.Random m_Random;
 
@@ -19,7 +18,7 @@ namespace GH.Systems
 
         protected override void OnUpdate()
         {
-            Entities.WithNone<Deploying>().ForEach((Entity entity, ref Deploy deploy, ref Translation translation) =>
+            Entities.WithNone<Deploying>().ForEach((Entity entity, ref InitialDeploy deploy, ref Translation translation) =>
             {
                 float3 randomPosition = m_Random.NextFloat3(-5f, 5f);
                 randomPosition.y = 0f;
@@ -37,15 +36,15 @@ namespace GH.Systems
 
                 translation.Value = startingPosition;
 
-                EntityManager.RemoveComponent<Deploy>(entity);
-                EntityManager.AddComponent<Deploying>(entity);
                 EntityManager.AddComponentData(entity, new MovementTarget() { Value = randomPosition });
+
+                PostUpdateCommands.RemoveComponent<InitialDeploy>(entity);
+                PostUpdateCommands.AddComponent<Deploying>(entity);
             });
 
             Entities.WithAll<Deploying>().WithNone<MovementTarget>().ForEach((Entity entity) =>
             {
-                EntityManager.RemoveComponent<Deploying>(entity);
-
+                PostUpdateCommands.RemoveComponent<Deploying>(entity);
             });
         }
     }
