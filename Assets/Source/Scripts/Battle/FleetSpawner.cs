@@ -31,8 +31,8 @@ namespace GH.Scripts
                 ShipCount = ShipCount,
                 TopSpeed = ShipSpecs.TopSpeed,
                 RotationSpeed = ShipSpecs.RotationSpeed,
-                Acceleration = 0f,
-                Deceleration = 0f
+                Acceleration = ShipSpecs.Acceleration,
+                Deceleration = ShipSpecs.Deceleration
             };
 
             entityManager.AddComponentData(entity, spawnFleet);

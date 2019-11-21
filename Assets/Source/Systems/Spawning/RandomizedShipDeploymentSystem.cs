@@ -19,13 +19,13 @@ namespace GH.Systems
 
         protected override void OnUpdate()
         {
-            Entities.WithAll<Deploying>().ForEach((Entity entity, ref Deploying deploying, ref Translation translation) =>
+            Entities.WithNone<Deploying>().ForEach((Entity entity, ref Deploy deploy, ref Translation translation) =>
             {
                 float3 randomPosition = m_Random.NextFloat3(-5f, 5f);
                 randomPosition.y = 0f;
 
                 float zOffset = 5f;
-                if(deploying.FleetID == 1)
+                if (deploy.FleetID == 1)
                 {
                     zOffset = -5f;
                 }
@@ -33,10 +33,20 @@ namespace GH.Systems
                 randomPosition.z = (randomPosition.z / 5f) + zOffset;
 
                 float3 startingPosition = randomPosition;
+                startingPosition.z += zOffset;
 
                 translation.Value = startingPosition;
 
+                EntityManager.RemoveComponent<Deploy>(entity);
+                EntityManager.AddComponent<Deploying>(entity);
+                EntityManager.AddComponentData(entity, new MovementTarget() { Value = randomPosition });
+            });
+
+            Entities.WithAll<Deploying>().WithNone<MovementTarget>().ForEach((Entity entity) =>
+            {
                 EntityManager.RemoveComponent<Deploying>(entity);
+
             });
         }
-    } }
+    }
+}

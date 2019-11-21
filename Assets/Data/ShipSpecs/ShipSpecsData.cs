@@ -11,6 +11,10 @@ namespace GH.Data
 
 		public string NameID;
 
+        public float Acceleration;
+
+        public float Deceleration;
+
 		public float TopSpeed;
 
 		public float RotationSpeed;

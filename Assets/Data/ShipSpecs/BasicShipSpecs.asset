@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e1052b47a0321b41968d8cf5d7c7103, type: 3}
   m_Name: BasicShipSpecs
   m_EditorClassIdentifier: 
-  ID: -19408
+  ID: 14320
   NameID: Basic_Ship
-  Speed: 0
-  TurnSpeed: 0
+  Acceleration: 10
+  Deceleration: 0
+  TopSpeed: 25
+  RotationSpeed: 0
   Hull: 0
   Shields: 0
   ShieldRechargeRate: 0

@@ -1,14 +1,13 @@
-﻿using GH.Enums;
-using System;
+﻿using System;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
-using Unity.Rendering;
 
 namespace GH.Components
 {
     [Serializable]
-    public struct Deploying : IComponentData
+    public struct MovementTarget : IComponentData
     {
+        public float3 Value;
     }
 }
