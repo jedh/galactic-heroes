@@ -6,9 +6,9 @@ using UnityEngine;
 
 public class AssetManager : MonoBehaviour
 {
-	public List<ShipSpecsData> ShipSpecsDataAssets;
+    public ShipSpecsDatabase ShipSpecsDB;
 
-	public List<ShipViewData> ShipViewDataAssets;
+    public ShipViewDatabase ShipViewDB;
 
 	public Dictionary<int, ShipSpecsData> ShipSpecsDataMap { get; private set; } = new Dictionary<int, ShipSpecsData>();
 
@@ -16,7 +16,7 @@ public class AssetManager : MonoBehaviour
 
 	private void Awake()
 	{
-		foreach (var shipSpecsData in ShipSpecsDataAssets)
+		foreach (var shipSpecsData in ShipSpecsDB.ShipSpecs)
 		{
 			if (!ShipSpecsDataMap.ContainsKey(shipSpecsData.ID))
 			{
@@ -24,7 +24,7 @@ public class AssetManager : MonoBehaviour
 			}
 		}
 
-		foreach (var shipViewData in ShipViewDataAssets)
+		foreach (var shipViewData in ShipViewDB.ShipViews)
 		{
 			if (!ShipViewDataMap.ContainsKey(shipViewData.ShipSpecs.ID))
 			{
