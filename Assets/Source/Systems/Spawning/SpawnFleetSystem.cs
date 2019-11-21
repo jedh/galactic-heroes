@@ -10,13 +10,6 @@ namespace GH.Systems
     [UpdateInGroup(typeof(BattleSetupSystemGroup))]
     public class SpawnFleetSystem : ComponentSystem
     {
-        Random m_Random;
-
-        protected override void OnCreate()
-        {
-            m_Random = new Random((uint)System.DateTime.Now.Ticks);
-        }
-
         protected override void OnUpdate()
         {
             Entities.WithNone<SpawnEntityState>().ForEach((Entity entity, ref SpawnFleet spawnFleet) =>
@@ -27,6 +20,7 @@ namespace GH.Systems
 
                 var ship = new Ship() { ID = spawnFleet.ShipID };
                 var translation = new Translation() { Value = float3.zero };
+                var deploying = new Deploying() { FleetID = spawnFleet.FleetID };
                 var rotation = default(Rotation);
                 var moveSpeed = default(MoveSpeed);
                 var rotateSpeed = default(RotateSpeed);
@@ -39,16 +33,14 @@ namespace GH.Systems
                     RotationSpeed = spawnFleet.RotationSpeed
                 };
 
+
                 for (var i = 0; i < spawnFleet.ShipCount; i++)
                 {
-                    var randomPosition = m_Random.NextFloat3(-5f, 5f);
-                    randomPosition.y = 0f;
-                    translation.Value = randomPosition;
-
                     ship.InstanceID = i;
                     PostUpdateCommands.AddComponent(shipEntities[i], ship);
                     PostUpdateCommands.AddComponent(shipEntities[i], translation);
                     PostUpdateCommands.AddComponent(shipEntities[i], rotation);
+                    PostUpdateCommands.AddComponent(shipEntities[i], deploying);
                     PostUpdateCommands.AddComponent(shipEntities[i], moveSpeed);
                     PostUpdateCommands.AddComponent(shipEntities[i], rotateSpeed);
                     PostUpdateCommands.AddComponent(shipEntities[i], localToWorld);
