@@ -36,13 +36,13 @@ namespace GH.Systems
 
                 translation.Value = startingPosition;
 
-                EntityManager.AddComponentData(entity, new MovementTarget() { Value = randomPosition });
-
                 PostUpdateCommands.RemoveComponent<InitialDeploy>(entity);
                 PostUpdateCommands.AddComponent<Deploying>(entity);
+                PostUpdateCommands.AddComponent<TranslateToPosition>(entity);
+                PostUpdateCommands.SetComponent(entity, new TranslateToPosition() { Value = randomPosition });
             });
 
-            Entities.WithAll<Deploying>().WithNone<MovementTarget>().ForEach((Entity entity) =>
+            Entities.WithAll<Deploying>().WithNone<TranslateToPosition>().ForEach((Entity entity) =>
             {
                 PostUpdateCommands.RemoveComponent<Deploying>(entity);
             });

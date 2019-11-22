@@ -19,11 +19,11 @@ namespace GH.Systems
                 EntityManager.Instantiate(ent, shipEntities);
 
                 var ship = new Ship() { ID = spawnFleet.ShipID };
-                var translation = new Translation() { Value = float3.zero };
                 var deploy = new InitialDeploy() { FleetID = spawnFleet.FleetID };
+                var translation = new Translation() { Value = float3.zero };
                 var rotation = default(Rotation);
-                var moveSpeed = default(MoveSpeed);
-                var rotateSpeed = default(RotateSpeed);
+                var moveSpeed = default(Velocity);
+                var rotateSpeed = default(AngularVelocity);
                 var localToWorld = new LocalToWorld();
                 var movementStats = new MovementStats()
                 {

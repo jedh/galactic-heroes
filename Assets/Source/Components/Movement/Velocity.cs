@@ -6,8 +6,8 @@ using Unity.Mathematics;
 namespace GH.Components
 {
 	[Serializable]
-	public struct RotateSpeed : IComponentData
+	public struct Velocity : IComponentData
 	{
-		public float Value;
+		public float3 Value;
 	}
 }
