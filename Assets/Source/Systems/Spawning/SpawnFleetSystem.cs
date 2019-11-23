@@ -1,5 +1,6 @@
 ﻿using GH.Components;
 using GH.SystemGroups;
+using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
@@ -10,10 +11,24 @@ namespace GH.Systems
     [UpdateInGroup(typeof(BattleSetupSystemGroup))]
     public class SpawnFleetSystem : ComponentSystem
     {
+        Dictionary<int, SharedFleetGrouping> m_SharedFleetGroupingMap;
+
+        protected override void OnCreate()
+        {
+            m_SharedFleetGroupingMap = new Dictionary<int, SharedFleetGrouping>();
+        }
+
         protected override void OnUpdate()
         {
             Entities.WithNone<SpawnEntityState>().ForEach((Entity entity, ref SpawnFleet spawnFleet) =>
             {
+                SharedFleetGrouping sharedFleetGrouping;
+                if (!m_SharedFleetGroupingMap.TryGetValue(spawnFleet.FleetID, out sharedFleetGrouping))
+                {
+                    sharedFleetGrouping = new SharedFleetGrouping() { ID = spawnFleet.FleetID };
+                    m_SharedFleetGroupingMap.Add(spawnFleet.FleetID, sharedFleetGrouping);
+                }
+
                 var shipEntities = new NativeArray<Entity>(spawnFleet.ShipCount, Allocator.Temp);
                 var ent = EntityManager.CreateEntity();
                 EntityManager.Instantiate(ent, shipEntities);
@@ -45,6 +60,7 @@ namespace GH.Systems
                     PostUpdateCommands.AddComponent(shipEntities[i], rotateSpeed);
                     PostUpdateCommands.AddComponent(shipEntities[i], localToWorld);
                     PostUpdateCommands.AddComponent(shipEntities[i], movementStats);
+                    PostUpdateCommands.AddSharedComponent(shipEntities[i], sharedFleetGrouping);
                 }
 
                 shipEntities.Dispose();
