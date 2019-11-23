@@ -19,9 +19,11 @@ namespace GH.Systems
                 float distance = math.length(toTarget);
                 if(distance <= k_DistanceFromTarget)
                 {
-                    EntityManager.RemoveComponent<TranslateToPosition>(entity);
-                    EntityManager.RemoveComponent<Velocity>(entity);
+                    velocity.Value = float3.zero;
                     translation.Value = target.Value;
+
+                    EntityManager.RemoveComponent<TranslateToPosition>(entity);
+
                     return; // we're there, stop.
                 }
 
