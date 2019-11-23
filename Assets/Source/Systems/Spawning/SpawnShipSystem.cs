@@ -4,6 +4,7 @@ using Unity.Entities;
 using Unity.Rendering;
 using Unity.Transforms;
 using UnityEngine;
+using Unity.Mathematics;
 
 namespace GH.Systems
 {
@@ -26,8 +27,8 @@ namespace GH.Systems
 				PostUpdateCommands.AddComponent(spawnedEntity, new Translation() { Value = spawnShip.Position });
 				PostUpdateCommands.AddComponent(spawnedEntity, new Rotation() { Value = spawnShip.Rotation });
 				PostUpdateCommands.AddComponent(spawnedEntity, new Ship() { ID = spawnShip.ShipID, InstanceID = m_SpawnCounter });
-				PostUpdateCommands.AddComponent(spawnedEntity, new Velocity() { Value = 0f });
-				PostUpdateCommands.AddComponent(spawnedEntity, new AngularVelocity() { Value = 0f });
+				PostUpdateCommands.AddComponent(spawnedEntity, new Velocity() { Value = float3.zero });
+				PostUpdateCommands.AddComponent(spawnedEntity, new AngularVelocity() { Value = float3.zero });
 				PostUpdateCommands.AddComponent(spawnedEntity, new LocalToWorld());
 				PostUpdateCommands.AddComponent(spawnedEntity, new MovementStats()
 				{

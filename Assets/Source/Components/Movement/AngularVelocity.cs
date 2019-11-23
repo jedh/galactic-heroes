@@ -8,6 +8,6 @@ namespace GH.Components
 	[Serializable]
 	public struct AngularVelocity : IComponentData
 	{
-		public float Value;
+		public float3 Value;
 	}
 }

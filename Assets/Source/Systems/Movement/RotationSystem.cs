@@ -12,7 +12,7 @@ namespace GH.Systems
 		{
 			Entities.ForEach((ref Rotation rotation, ref AngularVelocity angularVelocity) =>
 			{
-                rotation.Value = math.mul(rotation.Value, quaternion.RotateY(angularVelocity.Value * Time.deltaTime));  //assumes rotation about Y axis...
+                rotation.Value = math.mul(rotation.Value, quaternion.EulerXYZ(angularVelocity.Value * Time.deltaTime));
 			});
 		}
 	}
