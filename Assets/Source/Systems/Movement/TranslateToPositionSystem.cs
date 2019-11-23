@@ -22,18 +22,36 @@ namespace GH.Systems
                     velocity.Value = float3.zero;
                     translation.Value = target.Value;
 
-                    EntityManager.RemoveComponent<TranslateToPosition>(entity);
+                    PostUpdateCommands.RemoveComponent<TranslateToPosition>(entity);
 
                     return; // we're there, stop.
                 }
 
                 float speed = math.length(velocity.Value);  // starts with existing speed.
 
-                float v = Mathf.Min(speed + stats.Acceleration * Time.deltaTime * Time.deltaTime, stats.TopSpeed);
+                // https://math.stackexchange.com/questions/233107/finding-minimum-distance-traveled-with-specified-deceleration-from-starting-spee
+                float distanceTravelledIfDecelerating = (speed * speed) / (2 * stats.Deceleration);
 
-                if ((distance - v * Time.deltaTime) < 0)    // expected movement
+                float v = speed;
+                if (distance <= distanceTravelledIfDecelerating)
                 {
-                    v = distance / Time.deltaTime;
+                    v = math.min(v - stats.Deceleration * Time.deltaTime * Time.deltaTime, stats.TopSpeed);
+                }
+                else
+                {
+                    // https://math.stackexchange.com/questions/637042/calculate-maximum-velocity-given-accel-decel-initial-v-final-position
+                    float a = stats.Acceleration;
+                    float d = stats.Deceleration;
+                    float vmax = math.min(math.sqrt((d * speed * speed + 2 * a * distance * d) / (a + d)), stats.TopSpeed);
+
+                    v = math.min(speed + stats.Acceleration * Time.deltaTime * Time.deltaTime, vmax);
+                }
+
+                float expectedDistanceThisFrame = distance - v * Time.deltaTime;
+
+                if (expectedDistanceThisFrame < k_DistanceFromTarget)
+                {
+                    v = distance / Time.deltaTime; // take us right there this frame.
                 }
 
                 velocity.Value = math.normalize(toTarget) * v;
