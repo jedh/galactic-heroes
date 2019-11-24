@@ -1,4 +1,5 @@
 ﻿using GH.Components;
+using GH.SystemGroups;
 using Unity.Entities;
 using Unity.Transforms;
 using Unity.Mathematics;
@@ -6,6 +7,7 @@ using UnityEngine;
 
 namespace GH.Systems
 {
+    [UpdateInGroup(typeof(BattleLogicSystemGroup))]
     public class TranslateToSystem : ComponentSystem
     {
         private const float k_DistanceFromTarget = 0.001f;
