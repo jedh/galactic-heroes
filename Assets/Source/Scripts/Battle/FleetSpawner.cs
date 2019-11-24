@@ -11,31 +11,29 @@ namespace GH.Scripts
 {
 	public class FleetSpawner : MonoBehaviour
 	{
-		public ShipSpecsData ShipSpecs;
-
-		public EFactions Faction;
-
-        public int FleetID;
-
-		public int ShipCount;
+        public FleetRosterData FleetRoster;
 
 		void Start()
 		{
 			var entityManager = World.Active.EntityManager.World.EntityManager;
-			var entity = entityManager.CreateEntity();
-            var spawnFleet = new SpawnFleet()
+            for (int i = 0; i < FleetRoster.ShipTypeEntries.Count; i++)
             {
-                ShipID = ShipSpecs.ID,
-                Faction = Faction,
-                FleetID = FleetID,
-                ShipCount = ShipCount,
-                TopSpeed = ShipSpecs.TopSpeed,
-                RotationSpeed = ShipSpecs.RotationSpeed,
-                Acceleration = ShipSpecs.Acceleration,
-                Deceleration = ShipSpecs.Deceleration
-            };
+                var shipTypeEntry = FleetRoster.ShipTypeEntries[i];
+                var entity = entityManager.CreateEntity();
+                var spawnFleet = new SpawnFleet()
+                {
+                    ShipID = shipTypeEntry.ShipSpecs.ID,
+                    Faction = FleetRoster.Faction,
+                    FleetID = FleetRoster.FleetID,
+                    ShipCount = shipTypeEntry.Count,
+                    TopSpeed = shipTypeEntry.ShipSpecs.TopSpeed,
+                    RotationSpeed = shipTypeEntry.ShipSpecs.RotationSpeed,
+                    Acceleration = shipTypeEntry.ShipSpecs.Acceleration,
+                    Deceleration = shipTypeEntry.ShipSpecs.Deceleration
+                };
 
-            entityManager.AddComponentData(entity, spawnFleet);
+                entityManager.AddComponentData(entity, spawnFleet);
+            }
 		}
 	}
 }

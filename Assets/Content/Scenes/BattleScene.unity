@@ -454,13 +454,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1091389419}
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &1427271545
 GameObject:
   m_ObjectHideFlags: 0
@@ -490,10 +490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f81af3b764f4824ca20cb8b9264a493, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShipSpecs: {fileID: 11400000, guid: c420cd19726acb8429bf03ea455a1bc1, type: 2}
-  Faction: 1
-  FleetID: 0
-  ShipCount: 10
+  FleetRoster: {fileID: 11400000, guid: 6effc2408718ba647bb0bf975de1fcc1, type: 2}
 --- !u!4 &1427271547
 Transform:
   m_ObjectHideFlags: 0
@@ -537,10 +534,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f81af3b764f4824ca20cb8b9264a493, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShipSpecs: {fileID: 11400000, guid: c420cd19726acb8429bf03ea455a1bc1, type: 2}
-  Faction: 2
-  FleetID: 1
-  ShipCount: 80
+  FleetRoster: {fileID: 11400000, guid: a162e826b4678264693aa7d1a136442a, type: 2}
 --- !u!4 &1502198252
 Transform:
   m_ObjectHideFlags: 0

@@ -9,9 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85e039e1d36caf64bb8c03e1830f72bd, type: 3}
-  m_Name: BasicShipViewDatabase
+  m_Script: {fileID: 11500000, guid: 59d897868ab30344991f47df1b4ab39e, type: 3}
+  m_Name: FleetRoster_Empire
   m_EditorClassIdentifier: 
-  ShipViews:
-  - {fileID: 11400000, guid: 55ee66708e1e48047a8d66f3fd80feab, type: 2}
-  - {fileID: 11400000, guid: afe391ae865ea3842963d4a3c4e1955c, type: 2}
+  Faction: 1
+  FleetID: 0
+  ShipTypeEntries:
+  - ShipSpecs: {fileID: 11400000, guid: c420cd19726acb8429bf03ea455a1bc1, type: 2}
+    Count: 10
