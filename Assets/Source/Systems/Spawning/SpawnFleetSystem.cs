@@ -36,7 +36,7 @@ namespace GH.Systems
                 var ship = new Ship() { ID = spawnFleet.ShipID };
                 var deploy = new InitialDeploy() { FleetID = spawnFleet.FleetID };
                 var translation = new Translation() { Value = new float3(100,0,100) };
-                var rotation = default(Rotation);
+                var rotation = new Rotation() { Value = quaternion.identity };
                 var moveSpeed = default(Velocity);
                 var rotateSpeed = default(AngularVelocity);
                 var localToWorld = new LocalToWorld();

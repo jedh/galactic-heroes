@@ -28,7 +28,7 @@ namespace GH.Systems
 				PostUpdateCommands.AddComponent(spawnedEntity, new Rotation() { Value = spawnShip.Rotation });
 				PostUpdateCommands.AddComponent(spawnedEntity, new Ship() { ID = spawnShip.ShipID, InstanceID = m_SpawnCounter });
 				PostUpdateCommands.AddComponent(spawnedEntity, new Velocity() { Value = float3.zero });
-				PostUpdateCommands.AddComponent(spawnedEntity, new AngularVelocity() { Value = float3.zero });
+				PostUpdateCommands.AddComponent(spawnedEntity, new AngularVelocity() { Axis = math.up(), Velocity = 0f });
 				PostUpdateCommands.AddComponent(spawnedEntity, new LocalToWorld());
 				PostUpdateCommands.AddComponent(spawnedEntity, new MovementStats()
 				{
