@@ -8,7 +8,7 @@ namespace GH.Systems
 {
     public class RotateTowardsPositionSystem : ComponentSystem
     {
-        private const float k_CosthetaTolerance = 0.01745329f;
+        private const float k_RadiansTolerance = 0.01745329f;
 
         protected override void OnUpdate()
         {
@@ -29,7 +29,7 @@ namespace GH.Systems
 
                 axis = math.normalize(axis) * direction;
                 
-                if(angleRadians <= k_CosthetaTolerance)
+                if(angleRadians <= k_RadiansTolerance)
                 {
                     angularVelocity.Axis = axis;
                     angularVelocity.Velocity = 0f;
