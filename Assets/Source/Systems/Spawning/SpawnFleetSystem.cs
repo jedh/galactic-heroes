@@ -40,6 +40,7 @@ namespace GH.Systems
                 var moveSpeed = default(Velocity);
                 var rotateSpeed = default(AngularVelocity);
                 var localToWorld = new LocalToWorld();
+                var movementType = new TurnThenMove();
                 var movementStats = new MovementStats()
                 {
                     TopSpeed = spawnFleet.TopSpeed,
@@ -59,6 +60,7 @@ namespace GH.Systems
                     PostUpdateCommands.AddComponent(shipEntities[i], moveSpeed);
                     PostUpdateCommands.AddComponent(shipEntities[i], rotateSpeed);
                     PostUpdateCommands.AddComponent(shipEntities[i], localToWorld);
+                    PostUpdateCommands.AddComponent(shipEntities[i], movementType);
                     PostUpdateCommands.AddComponent(shipEntities[i], movementStats);
                     PostUpdateCommands.AddSharedComponent(shipEntities[i], sharedFleetGrouping);
                 }
