@@ -4,7 +4,7 @@ using Unity.Entities;
 namespace GH.Components
 {
     [Serializable]
-    public struct RotateTowardsMouse : IComponentData
+    public struct TurnThenMove : IComponentData
     {
     }
 }
