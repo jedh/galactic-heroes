@@ -18,7 +18,7 @@ namespace GH.Systems
 
         protected override void OnUpdate()
         {
-            Entities.WithNone<Deploying>().ForEach((Entity entity, ref InitialDeploy deploy, ref Translation translation) =>
+            Entities.ForEach((Entity entity, ref InitialDeploy deploy, ref Translation translation) =>
             {
                 float3 randomPosition = m_Random.NextFloat3(-5f, 5f);
                 randomPosition.y = 0f;
@@ -36,15 +36,10 @@ namespace GH.Systems
 
                 translation.Value = startingPosition;
 
-                PostUpdateCommands.RemoveComponent<InitialDeploy>(entity);
-                PostUpdateCommands.AddComponent<Deploying>(entity);
-                PostUpdateCommands.AddComponent<TranslateToPosition>(entity);
-                PostUpdateCommands.SetComponent(entity, new TranslateToPosition() { Value = randomPosition });
-            });
+                PostUpdateCommands.AddComponent<MoveToPosition>(entity);
+                PostUpdateCommands.SetComponent(entity, new MoveToPosition() { Value = randomPosition });
 
-            Entities.WithAll<Deploying>().WithNone<TranslateToPosition>().ForEach((Entity entity) =>
-            {
-                PostUpdateCommands.RemoveComponent<Deploying>(entity);
+                PostUpdateCommands.RemoveComponent<InitialDeploy>(entity);
             });
         }
     }

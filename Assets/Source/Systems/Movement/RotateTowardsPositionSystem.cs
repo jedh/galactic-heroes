@@ -21,11 +21,11 @@ namespace GH.Systems
 
                 float costheta = math.dot(toPos, forward);
 
-                float3 axis = math.cross(forward, toPos);
+                float3 axis = costheta == -1 || costheta == 1 ? math.up() : math.cross(forward, toPos);
                 float angleRadians = math.acos(costheta);
 
                 float dot = math.dot(axis, math.up());
-                float direction = dot / math.abs(dot); // [-1, 1]
+                float direction = dot == 0f ? 1f : dot / math.abs(dot); // [-1, 1]
 
                 axis = math.normalize(axis) * direction;
                 
