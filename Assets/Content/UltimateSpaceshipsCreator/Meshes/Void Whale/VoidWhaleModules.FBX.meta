@@ -1,117 +1,329 @@
 fileFormatVersion: 2
 guid: 27e9c293de4e63f40853e8dea961dea9
-timeCreated: 1539590867
-licenseType: Store
 ModelImporter:
-  serializedVersion: 22
-  fileIDToRecycleName:
-    100000: VoidWhale_Battery
-    100002: VoidWhale_Bridge
-    100004: VoidWhale_Hatch
-    100006: VoidWhale_Lazer
-    100008: VoidWhale_Light1
-    100010: VoidWhale_Light2
-    100012: VoidWhale_Main1
-    100014: VoidWhale_Main2
-    100016: VoidWhale_Main3
-    100018: VoidWhale_Main4
-    100020: VoidWhale_Main5
-    100022: VoidWhale_MissileLauncher
-    100024: VoidWhale_Pipes
-    100026: VoidWhale_Runway
-    100028: VoidWhale_Sensor
-    100030: VoidWhale_Storage
-    100032: VoidWhale_Thruster1
-    100034: VoidWhale_Thruster2
-    100036: VoidWhale_Turret
-    100038: VoidWhale_Windbreaker
-    100040: VoidWhale_Wing
-    100042: //RootNode
-    400000: VoidWhale_Battery
-    400002: VoidWhale_Bridge
-    400004: VoidWhale_Hatch
-    400006: VoidWhale_Lazer
-    400008: VoidWhale_Light1
-    400010: VoidWhale_Light2
-    400012: VoidWhale_Main1
-    400014: VoidWhale_Main2
-    400016: VoidWhale_Main3
-    400018: VoidWhale_Main4
-    400020: VoidWhale_Main5
-    400022: VoidWhale_MissileLauncher
-    400024: VoidWhale_Pipes
-    400026: VoidWhale_Runway
-    400028: VoidWhale_Sensor
-    400030: VoidWhale_Storage
-    400032: VoidWhale_Thruster1
-    400034: VoidWhale_Thruster2
-    400036: VoidWhale_Turret
-    400038: VoidWhale_Windbreaker
-    400040: VoidWhale_Wing
-    400042: //RootNode
-    2300000: VoidWhale_Battery
-    2300002: VoidWhale_Bridge
-    2300004: VoidWhale_Hatch
-    2300006: VoidWhale_Lazer
-    2300008: VoidWhale_Light1
-    2300010: VoidWhale_Light2
-    2300012: VoidWhale_Main1
-    2300014: VoidWhale_Main2
-    2300016: VoidWhale_Main3
-    2300018: VoidWhale_Main4
-    2300020: VoidWhale_Main5
-    2300022: VoidWhale_MissileLauncher
-    2300024: VoidWhale_Pipes
-    2300026: VoidWhale_Runway
-    2300028: VoidWhale_Sensor
-    2300030: VoidWhale_Storage
-    2300032: VoidWhale_Thruster1
-    2300034: VoidWhale_Thruster2
-    2300036: VoidWhale_Turret
-    2300038: VoidWhale_Windbreaker
-    2300040: VoidWhale_Wing
-    3300000: VoidWhale_Battery
-    3300002: VoidWhale_Bridge
-    3300004: VoidWhale_Hatch
-    3300006: VoidWhale_Lazer
-    3300008: VoidWhale_Light1
-    3300010: VoidWhale_Light2
-    3300012: VoidWhale_Main1
-    3300014: VoidWhale_Main2
-    3300016: VoidWhale_Main3
-    3300018: VoidWhale_Main4
-    3300020: VoidWhale_Main5
-    3300022: VoidWhale_MissileLauncher
-    3300024: VoidWhale_Pipes
-    3300026: VoidWhale_Runway
-    3300028: VoidWhale_Sensor
-    3300030: VoidWhale_Storage
-    3300032: VoidWhale_Thruster1
-    3300034: VoidWhale_Thruster2
-    3300036: VoidWhale_Turret
-    3300038: VoidWhale_Windbreaker
-    3300040: VoidWhale_Wing
-    4300000: VoidWhale_Light1
-    4300002: VoidWhale_Pipes
-    4300004: VoidWhale_Wing
-    4300006: VoidWhale_Thruster1
-    4300008: VoidWhale_MissileLauncher
-    4300010: VoidWhale_Main5
-    4300012: VoidWhale_Windbreaker
-    4300014: VoidWhale_Hatch
-    4300016: VoidWhale_Main1
-    4300018: VoidWhale_Sensor
-    4300020: VoidWhale_Main3
-    4300022: VoidWhale_Thruster2
-    4300024: VoidWhale_Lazer
-    4300026: VoidWhale_Main2
-    4300028: VoidWhale_Battery
-    4300030: VoidWhale_Storage
-    4300032: VoidWhale_Bridge
-    4300034: VoidWhale_Turret
-    4300036: VoidWhale_Light2
-    4300038: VoidWhale_Runway
-    4300040: VoidWhale_Main4
+  serializedVersion: 26
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: VoidWhale_Battery
+  - first:
+      1: 100002
+    second: VoidWhale_Bridge
+  - first:
+      1: 100004
+    second: VoidWhale_Hatch
+  - first:
+      1: 100006
+    second: VoidWhale_Lazer
+  - first:
+      1: 100008
+    second: VoidWhale_Light1
+  - first:
+      1: 100010
+    second: VoidWhale_Light2
+  - first:
+      1: 100012
+    second: VoidWhale_Main1
+  - first:
+      1: 100014
+    second: VoidWhale_Main2
+  - first:
+      1: 100016
+    second: VoidWhale_Main3
+  - first:
+      1: 100018
+    second: VoidWhale_Main4
+  - first:
+      1: 100020
+    second: VoidWhale_Main5
+  - first:
+      1: 100022
+    second: VoidWhale_MissileLauncher
+  - first:
+      1: 100024
+    second: VoidWhale_Pipes
+  - first:
+      1: 100026
+    second: VoidWhale_Runway
+  - first:
+      1: 100028
+    second: VoidWhale_Sensor
+  - first:
+      1: 100030
+    second: VoidWhale_Storage
+  - first:
+      1: 100032
+    second: VoidWhale_Thruster1
+  - first:
+      1: 100034
+    second: VoidWhale_Thruster2
+  - first:
+      1: 100036
+    second: VoidWhale_Turret
+  - first:
+      1: 100038
+    second: VoidWhale_Windbreaker
+  - first:
+      1: 100040
+    second: VoidWhale_Wing
+  - first:
+      1: 100042
+    second: //RootNode
+  - first:
+      4: 400000
+    second: VoidWhale_Battery
+  - first:
+      4: 400002
+    second: VoidWhale_Bridge
+  - first:
+      4: 400004
+    second: VoidWhale_Hatch
+  - first:
+      4: 400006
+    second: VoidWhale_Lazer
+  - first:
+      4: 400008
+    second: VoidWhale_Light1
+  - first:
+      4: 400010
+    second: VoidWhale_Light2
+  - first:
+      4: 400012
+    second: VoidWhale_Main1
+  - first:
+      4: 400014
+    second: VoidWhale_Main2
+  - first:
+      4: 400016
+    second: VoidWhale_Main3
+  - first:
+      4: 400018
+    second: VoidWhale_Main4
+  - first:
+      4: 400020
+    second: VoidWhale_Main5
+  - first:
+      4: 400022
+    second: VoidWhale_MissileLauncher
+  - first:
+      4: 400024
+    second: VoidWhale_Pipes
+  - first:
+      4: 400026
+    second: VoidWhale_Runway
+  - first:
+      4: 400028
+    second: VoidWhale_Sensor
+  - first:
+      4: 400030
+    second: VoidWhale_Storage
+  - first:
+      4: 400032
+    second: VoidWhale_Thruster1
+  - first:
+      4: 400034
+    second: VoidWhale_Thruster2
+  - first:
+      4: 400036
+    second: VoidWhale_Turret
+  - first:
+      4: 400038
+    second: VoidWhale_Windbreaker
+  - first:
+      4: 400040
+    second: VoidWhale_Wing
+  - first:
+      4: 400042
+    second: //RootNode
+  - first:
+      23: 2300000
+    second: VoidWhale_Battery
+  - first:
+      23: 2300002
+    second: VoidWhale_Bridge
+  - first:
+      23: 2300004
+    second: VoidWhale_Hatch
+  - first:
+      23: 2300006
+    second: VoidWhale_Lazer
+  - first:
+      23: 2300008
+    second: VoidWhale_Light1
+  - first:
+      23: 2300010
+    second: VoidWhale_Light2
+  - first:
+      23: 2300012
+    second: VoidWhale_Main1
+  - first:
+      23: 2300014
+    second: VoidWhale_Main2
+  - first:
+      23: 2300016
+    second: VoidWhale_Main3
+  - first:
+      23: 2300018
+    second: VoidWhale_Main4
+  - first:
+      23: 2300020
+    second: VoidWhale_Main5
+  - first:
+      23: 2300022
+    second: VoidWhale_MissileLauncher
+  - first:
+      23: 2300024
+    second: VoidWhale_Pipes
+  - first:
+      23: 2300026
+    second: VoidWhale_Runway
+  - first:
+      23: 2300028
+    second: VoidWhale_Sensor
+  - first:
+      23: 2300030
+    second: VoidWhale_Storage
+  - first:
+      23: 2300032
+    second: VoidWhale_Thruster1
+  - first:
+      23: 2300034
+    second: VoidWhale_Thruster2
+  - first:
+      23: 2300036
+    second: VoidWhale_Turret
+  - first:
+      23: 2300038
+    second: VoidWhale_Windbreaker
+  - first:
+      23: 2300040
+    second: VoidWhale_Wing
+  - first:
+      33: 3300000
+    second: VoidWhale_Battery
+  - first:
+      33: 3300002
+    second: VoidWhale_Bridge
+  - first:
+      33: 3300004
+    second: VoidWhale_Hatch
+  - first:
+      33: 3300006
+    second: VoidWhale_Lazer
+  - first:
+      33: 3300008
+    second: VoidWhale_Light1
+  - first:
+      33: 3300010
+    second: VoidWhale_Light2
+  - first:
+      33: 3300012
+    second: VoidWhale_Main1
+  - first:
+      33: 3300014
+    second: VoidWhale_Main2
+  - first:
+      33: 3300016
+    second: VoidWhale_Main3
+  - first:
+      33: 3300018
+    second: VoidWhale_Main4
+  - first:
+      33: 3300020
+    second: VoidWhale_Main5
+  - first:
+      33: 3300022
+    second: VoidWhale_MissileLauncher
+  - first:
+      33: 3300024
+    second: VoidWhale_Pipes
+  - first:
+      33: 3300026
+    second: VoidWhale_Runway
+  - first:
+      33: 3300028
+    second: VoidWhale_Sensor
+  - first:
+      33: 3300030
+    second: VoidWhale_Storage
+  - first:
+      33: 3300032
+    second: VoidWhale_Thruster1
+  - first:
+      33: 3300034
+    second: VoidWhale_Thruster2
+  - first:
+      33: 3300036
+    second: VoidWhale_Turret
+  - first:
+      33: 3300038
+    second: VoidWhale_Windbreaker
+  - first:
+      33: 3300040
+    second: VoidWhale_Wing
+  - first:
+      43: 4300000
+    second: VoidWhale_Light1
+  - first:
+      43: 4300002
+    second: VoidWhale_Pipes
+  - first:
+      43: 4300004
+    second: VoidWhale_Wing
+  - first:
+      43: 4300006
+    second: VoidWhale_Thruster1
+  - first:
+      43: 4300008
+    second: VoidWhale_MissileLauncher
+  - first:
+      43: 4300010
+    second: VoidWhale_Main5
+  - first:
+      43: 4300012
+    second: VoidWhale_Windbreaker
+  - first:
+      43: 4300014
+    second: VoidWhale_Hatch
+  - first:
+      43: 4300016
+    second: VoidWhale_Main1
+  - first:
+      43: 4300018
+    second: VoidWhale_Sensor
+  - first:
+      43: 4300020
+    second: VoidWhale_Main3
+  - first:
+      43: 4300022
+    second: VoidWhale_Thruster2
+  - first:
+      43: 4300024
+    second: VoidWhale_Lazer
+  - first:
+      43: 4300026
+    second: VoidWhale_Main2
+  - first:
+      43: 4300028
+    second: VoidWhale_Battery
+  - first:
+      43: 4300030
+    second: VoidWhale_Storage
+  - first:
+      43: 4300032
+    second: VoidWhale_Bridge
+  - first:
+      43: 4300034
+    second: VoidWhale_Turret
+  - first:
+      43: 4300036
+    second: VoidWhale_Light2
+  - first:
+      43: 4300038
+    second: VoidWhale_Runway
+  - first:
+      43: 4300040
+    second: VoidWhale_Main4
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -136,6 +348,7 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
@@ -147,9 +360,11 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 0.02
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
     importVisibility: 0
     importBlendShapes: 1
     importCameras: 0
@@ -157,10 +372,13 @@ ModelImporter:
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
     preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
     indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
@@ -172,10 +390,14 @@ ModelImporter:
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -185,8 +407,8 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 0.0002
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
