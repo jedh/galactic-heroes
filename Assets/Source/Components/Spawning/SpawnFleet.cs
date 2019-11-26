@@ -25,5 +25,7 @@ namespace GH.Components
         public float Acceleration;
 
         public float Deceleration;
+
+        public int SquadSize;
     }
 }

@@ -5,6 +5,7 @@ using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
+using UnityEngine;
 
 namespace GH.Systems
 {
@@ -22,16 +23,12 @@ namespace GH.Systems
 		{
 			Entities.WithNone<SpawnEntityState>().ForEach((Entity entity, ref SpawnFleet spawnFleet) =>
 			{
-				SharedFleetGrouping sharedFleetGrouping;
+                SharedFleetGrouping sharedFleetGrouping;
 				if (!m_SharedFleetGroupingMap.TryGetValue(spawnFleet.FleetID, out sharedFleetGrouping))
 				{
 					sharedFleetGrouping = new SharedFleetGrouping() { ID = spawnFleet.FleetID };
 					m_SharedFleetGroupingMap.Add(spawnFleet.FleetID, sharedFleetGrouping);
 				}
-
-				var shipEntities = new NativeArray<Entity>(spawnFleet.ShipCount, Allocator.Temp);
-				var ent = EntityManager.CreateEntity();
-				EntityManager.Instantiate(ent, shipEntities);
 
 				var ship = new Ship() { ID = spawnFleet.ShipID };
 				var deploy = new InitialDeploy() { FleetID = spawnFleet.FleetID };
@@ -40,9 +37,9 @@ namespace GH.Systems
 				var moveSpeed = default(Velocity);
 				var rotateSpeed = default(AngularVelocity);
 				var localToWorld = new LocalToWorld();
-				//var movementType = new TurnThenMove();
 				var movementType = new TurnAndMove();
-				var movementStats = new MovementStats()
+                var followMouse = new FollowMouse();
+                var movementStats = new MovementStats()
 				{
 					TopSpeed = spawnFleet.TopSpeed,
 					Acceleration = spawnFleet.Acceleration,
@@ -50,22 +47,42 @@ namespace GH.Systems
 					RotationSpeed = spawnFleet.RotationSpeed
 				};
 
-				var followMouse = new FollowMouse();
+                var shipEntities = new NativeArray<Entity>(spawnFleet.ShipCount * spawnFleet.SquadSize, Allocator.Temp);
+                var ent = EntityManager.CreateEntity();
+                EntityManager.Instantiate(ent, shipEntities);
 
-				for (var i = 0; i < spawnFleet.ShipCount; i++)
+                var index = 0;
+                for (var i = 0; i < spawnFleet.ShipCount; i++)
 				{
-					ship.InstanceID = i;
-					PostUpdateCommands.AddComponent(shipEntities[i], ship);
-					PostUpdateCommands.AddComponent(shipEntities[i], translation);
-					PostUpdateCommands.AddComponent(shipEntities[i], rotation);
-					PostUpdateCommands.AddComponent(shipEntities[i], deploy);
-					PostUpdateCommands.AddComponent(shipEntities[i], moveSpeed);
-					PostUpdateCommands.AddComponent(shipEntities[i], rotateSpeed);
-					PostUpdateCommands.AddComponent(shipEntities[i], localToWorld);
-					PostUpdateCommands.AddComponent(shipEntities[i], movementType);
-					PostUpdateCommands.AddComponent(shipEntities[i], movementStats);
-					PostUpdateCommands.AddComponent(shipEntities[i], followMouse);
-					PostUpdateCommands.AddSharedComponent(shipEntities[i], sharedFleetGrouping);
+                    SharedSquadGrouping sharedSquadGrouping = new SharedSquadGrouping();
+                    if (spawnFleet.SquadSize > 1)
+                    {
+                        sharedSquadGrouping.ID = GetHashCode();
+                    }
+
+                    for (var j = 0; j < spawnFleet.SquadSize; j++)
+                    {
+                        Debug.Log(index);
+                        ship.InstanceID = index;
+                        PostUpdateCommands.AddComponent(shipEntities[index], ship);
+                        PostUpdateCommands.AddComponent(shipEntities[index], translation);
+                        PostUpdateCommands.AddComponent(shipEntities[index], rotation);
+                        PostUpdateCommands.AddComponent(shipEntities[index], deploy);
+                        PostUpdateCommands.AddComponent(shipEntities[index], moveSpeed);
+                        PostUpdateCommands.AddComponent(shipEntities[index], rotateSpeed);
+                        PostUpdateCommands.AddComponent(shipEntities[index], localToWorld);
+                        PostUpdateCommands.AddComponent(shipEntities[index], movementType);
+                        PostUpdateCommands.AddComponent(shipEntities[index], movementStats);
+                        PostUpdateCommands.AddComponent(shipEntities[index], followMouse);
+                        PostUpdateCommands.AddSharedComponent(shipEntities[index], sharedFleetGrouping);
+
+                        if (spawnFleet.SquadSize > 1)
+                        {
+                            PostUpdateCommands.AddSharedComponent(shipEntities[index], sharedSquadGrouping);
+                        }
+
+                        index++;
+                    }
 				}
 
 				shipEntities.Dispose();

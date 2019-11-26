@@ -20,6 +20,14 @@ namespace GH.Scripts
             {
                 var shipTypeEntry = FleetRoster.ShipTypeEntries[i];
                 var entity = entityManager.CreateEntity();
+
+                int squadID = 0;
+                if (shipTypeEntry.ShipSpecs.SquadSize > 1)
+                {
+                    // Only assign a squad ID if there is more than one ship in the squad.
+                    squadID = GetHashCode();
+                }
+
                 var spawnFleet = new SpawnFleet()
                 {
                     ShipID = shipTypeEntry.ShipSpecs.ID,
@@ -29,7 +37,8 @@ namespace GH.Scripts
                     TopSpeed = shipTypeEntry.ShipSpecs.TopSpeed,
                     RotationSpeed = shipTypeEntry.ShipSpecs.RotationSpeed,
                     Acceleration = shipTypeEntry.ShipSpecs.Acceleration,
-                    Deceleration = shipTypeEntry.ShipSpecs.Deceleration
+                    Deceleration = shipTypeEntry.ShipSpecs.Deceleration,
+                    SquadSize = shipTypeEntry.ShipSpecs.SquadSize
                 };
 
                 entityManager.AddComponentData(entity, spawnFleet);

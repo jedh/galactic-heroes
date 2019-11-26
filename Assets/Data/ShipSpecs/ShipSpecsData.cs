@@ -27,6 +27,9 @@ namespace GH.Data
 
 		public int CrewCount;
 
+        [Range(1, 100)]
+        public int SquadSize = 1;
+
 		private void Awake()
 		{
 			ID = GetHashCode();
