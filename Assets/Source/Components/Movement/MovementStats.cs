@@ -15,5 +15,7 @@ namespace GH.Components
 		public float Deceleration;
 
 		public float RotationSpeed;
+
+        public float ThrustTolerance;   // [0, 1]
 	}
 }
