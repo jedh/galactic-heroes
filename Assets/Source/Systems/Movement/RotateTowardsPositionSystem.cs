@@ -10,7 +10,7 @@ namespace GH.Systems
     [UpdateInGroup(typeof(BattleLogicSystemGroup))]
     public class RotateTowardsPositionSystem : ComponentSystem
     {
-        private const float k_RadiansTolerance = 0.01745329f;
+        private const float k_Tolerance = 0.9999f;
 
         protected override void OnUpdate()
         {
@@ -18,7 +18,17 @@ namespace GH.Systems
                 (Entity entity, ref RotateTowardsPosition target, 
                 ref MovementStats stats, ref Rotation rotation, ref AngularVelocity angularVelocity, ref Translation translation) =>
             {
-                float3 toPos = math.normalize(target.Value - translation.Value);
+                float3 toPos = target.Value - translation.Value;
+
+                if(math.lengthsq(toPos) == 0f)
+                {
+                    angularVelocity.Velocity = 0f;
+                    PostUpdateCommands.RemoveComponent<RotateTowardsPosition>(entity);
+                    return;
+                }
+
+                toPos = math.normalize(toPos);
+
                 float3 forward = math.normalize(math.forward(rotation.Value));
 
                 float costheta = math.dot(toPos, forward);
@@ -31,7 +41,7 @@ namespace GH.Systems
 
                 axis = math.normalize(axis) * direction;
                 
-                if(angleRadians <= k_RadiansTolerance)
+                if(costheta >= k_Tolerance)
                 {
                     angularVelocity.Axis = axis;
                     angularVelocity.Velocity = 0f;

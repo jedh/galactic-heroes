@@ -38,7 +38,8 @@ namespace GH.Scripts
                     RotationSpeed = shipTypeEntry.ShipSpecs.RotationSpeed,
                     Acceleration = shipTypeEntry.ShipSpecs.Acceleration,
                     Deceleration = shipTypeEntry.ShipSpecs.Deceleration,
-                    SquadSize = shipTypeEntry.ShipSpecs.SquadSize
+                    SquadSize = shipTypeEntry.ShipSpecs.SquadSize,
+                    ThrustTolerance = shipTypeEntry.ShipSpecs.ThrustTolerance
                 };
 
                 entityManager.AddComponentData(entity, spawnFleet);

@@ -36,8 +36,8 @@ namespace GH.Systems
 
                 translation.Value = startingPosition;
 
-                PostUpdateCommands.AddComponent<MoveToPosition>(entity);
-                PostUpdateCommands.SetComponent(entity, new MoveToPosition() { Value = randomPosition });
+                PostUpdateCommands.AddComponent<DeployToPosition>(entity);
+                PostUpdateCommands.SetComponent(entity, new DeployToPosition() { Value = randomPosition });
 
                 PostUpdateCommands.RemoveComponent<InitialDeploy>(entity);
             });

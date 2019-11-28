@@ -18,8 +18,8 @@ namespace GH.Systems
                     float3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     mousePosition.y = 0f;
 
-                    PostUpdateCommands.AddComponent<MoveToPosition>(entity);
-                    PostUpdateCommands.SetComponent(entity, new MoveToPosition() { Value = mousePosition });
+                    PostUpdateCommands.AddComponent<DeployToPosition>(entity);
+                    PostUpdateCommands.SetComponent(entity, new DeployToPosition() { Value = mousePosition });
                 }
             });
         }

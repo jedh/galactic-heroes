@@ -19,6 +19,8 @@ namespace GH.Data
 
 		public float RotationSpeed;
 
+        public float ThrustTolerance;
+
 		public float Hull;
 
 		public float Shields;

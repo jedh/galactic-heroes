@@ -10,29 +10,31 @@ namespace GH.Systems
     [UpdateInGroup(typeof(BattleLogicSystemGroup))]
     public class DeployToPositionSystem : ComponentSystem
     {
-        private const float k_DistanceFromTarget = 0.001f;
+        private const float k_DistanceFromTarget = 0.02f;
 
         protected override void OnUpdate()
         {
             Entities.ForEach((Entity entity, ref MovementStats stats, ref Translation translation, ref Velocity velocity, ref Rotation rotation, ref DeployToPosition moveToPosition) =>
             {
+                PostUpdateCommands.RemoveComponent<RotateTowardsPosition>(entity);
                 PostUpdateCommands.RemoveComponent<DeployToPosition>(entity);
                 PostUpdateCommands.RemoveComponent<MoveForward>(entity);
 
                 PostUpdateCommands.AddComponent<Moving>(entity);
                 PostUpdateCommands.SetComponent(entity, new Moving() { Value = moveToPosition.Value });
 
-                PostUpdateCommands.AddComponent<RotateTowardsPosition>(entity);
-                PostUpdateCommands.SetComponent(entity, new RotateTowardsPosition() { Value = moveToPosition.Value });
+                PostUpdateCommands.AddComponent<FaceTarget>(entity);
+                PostUpdateCommands.SetComponent(entity, new FaceTarget() { Value = moveToPosition.Value });
             });
 
-            Entities.WithNone<MoveForward>().ForEach((Entity entity, ref MovementStats stats, ref Translation translation, ref Velocity velocity, ref Rotation rotation, ref Moving moving) =>
+            Entities.WithNone<MoveForward>().ForEach((Entity entity, ref MovementStats stats, ref Translation translation, ref Velocity velocity, ref Rotation rotation, ref Moving target) =>
             {
+                float3 toPos = math.normalize(target.Value - translation.Value);
                 float3 forward = math.normalize(math.forward(rotation.Value));
 
-                float cosAngle = math.dot(forward, math.normalize(moving.Value - translation.Value));
+                float costheta = math.dot(toPos, forward);
 
-                if (math.abs(cosAngle) <= stats.ThrustTolerance) // have we turned enough to begin moving forward?
+                if (costheta >= stats.ThrustTolerance) // have we turned enough to begin moving forward?
                 {
                     float currentForwardSpeed = math.dot(forward, velocity.Value);
                     float forwardSpeed = math.min(currentForwardSpeed + stats.Acceleration * Time.deltaTime * Time.deltaTime, stats.TopSpeed);
@@ -44,51 +46,53 @@ namespace GH.Systems
 
             Entities.ForEach((Entity entity, ref MovementStats stats, ref Translation translation, ref Velocity velocity, ref Rotation rotation, ref Moving moving, ref MoveForward moveForward) =>
             {
-                moveForward.Speed = math.min(moveForward.Speed + stats.Acceleration * Time.deltaTime * Time.deltaTime, stats.TopSpeed);
-
                 float3 toTarget = moving.Value - translation.Value;
 
+                float t = Time.deltaTime;
+                float a = stats.Acceleration;
+                float d = stats.Deceleration;
+                float speed = moveForward.Speed;
                 float distance = math.length(toTarget);
+                float3 forward = math.normalize(math.forward(rotation.Value));
+
                 if (distance <= k_DistanceFromTarget)
                 {
+                    moveForward.Speed = 0f;
+
                     velocity.Value = float3.zero;
                     translation.Value = moving.Value;
 
                     PostUpdateCommands.RemoveComponent<Moving>(entity);
+                    PostUpdateCommands.RemoveComponent<FaceTarget>(entity);
                     PostUpdateCommands.RemoveComponent<MoveForward>(entity);
 
                     return; // we're there, stop.
                 }
 
-                float speed = math.length(velocity.Value);  // starts with existing speed.
+                float speedInDirection = math.dot(math.normalize(toTarget), forward * speed);
 
                 // https://math.stackexchange.com/questions/233107/finding-minimum-distance-traveled-with-specified-deceleration-from-starting-spee
-                float distanceTravelledIfDecelerating = (speed * speed) / (2 * stats.Deceleration);
+                float distanceTravelledIfDecelerating = (speedInDirection * speedInDirection) / (2 * d);
 
-                float v = speed;
                 if (distance <= distanceTravelledIfDecelerating)
                 {
-                    v = math.min(v - stats.Deceleration * Time.deltaTime * Time.deltaTime, stats.TopSpeed);
+                    speed = math.min(speed - d * t, stats.TopSpeed);
                 }
                 else
                 {
-                    // https://math.stackexchange.com/questions/637042/calculate-maximum-velocity-given-accel-decel-initial-v-final-position
-                    float a = stats.Acceleration;
-                    float d = stats.Deceleration;
-                    float vmax = math.min(math.sqrt((d * speed * speed + 2 * a * distance * d) / (a + d)), stats.TopSpeed);
-
-                    v = math.min(speed + stats.Acceleration * Time.deltaTime * Time.deltaTime, vmax);
+                    speed = math.min(speed + a * t, stats.TopSpeed);
                 }
 
-                float expectedDistanceThisFrame = distance - v * Time.deltaTime;
+                speedInDirection = math.dot(math.normalize(toTarget), forward * speed);
 
+                float expectedDistanceThisFrame = distance - speedInDirection * t;
                 if (expectedDistanceThisFrame < k_DistanceFromTarget)
                 {
-                    v = distance / Time.deltaTime; // take us right there this frame.
+                    Debug.LogWarning("Stopping");
+                    speed = distance / Time.deltaTime; // take us right there this frame.
                 }
 
-                velocity.Value = math.normalize(toTarget) * v;
-
+                moveForward.Speed = speed;
             });
         }
     }

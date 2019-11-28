@@ -40,11 +40,12 @@ namespace GH.Systems
 				var movementType = new TurnAndMove();
                 var followMouse = new FollowMouse();
                 var movementStats = new MovementStats()
-				{
-					TopSpeed = spawnFleet.TopSpeed,
-					Acceleration = spawnFleet.Acceleration,
-					Deceleration = spawnFleet.Deceleration,
-					RotationSpeed = spawnFleet.RotationSpeed
+                {
+                    TopSpeed = spawnFleet.TopSpeed,
+                    Acceleration = spawnFleet.Acceleration,
+                    Deceleration = spawnFleet.Deceleration,
+                    RotationSpeed = spawnFleet.RotationSpeed,
+                    ThrustTolerance = spawnFleet.ThrustTolerance
 				};
 
                 var shipEntities = new NativeArray<Entity>(spawnFleet.ShipCount * spawnFleet.SquadSize, Allocator.Temp);
