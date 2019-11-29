@@ -20,6 +20,16 @@ namespace GH.Systems
                 PostUpdateCommands.RemoveComponent<MoveForward>(entity);
                 angularVelocity.Velocity = 0f;
 
+                /* if facing close enough
+                    update ang vel
+                    add move forward
+                    accel/decel
+                else
+                    if speed is slow enough
+                         add ang vel
+                    decel
+                */
+
                 float speed = math.length(velocity.Value);
                 if(speed > stats.MaxSpeedToTurn)
                 {
