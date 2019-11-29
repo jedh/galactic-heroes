@@ -45,8 +45,10 @@ namespace GH.Systems
                     Acceleration = spawnFleet.Acceleration,
                     Deceleration = spawnFleet.Deceleration,
                     RotationSpeed = spawnFleet.RotationSpeed,
-                    ThrustTolerance = spawnFleet.ThrustTolerance
-				};
+                    ThrustTolerance = spawnFleet.ThrustTolerance,
+                    MaxSpeedToTurn = spawnFleet.MaxSpeedToTurn,
+                    DoesSwarm = spawnFleet.DoesSwarm
+                };
 
                 var shipEntities = new NativeArray<Entity>(spawnFleet.ShipCount * spawnFleet.SquadSize, Allocator.Temp);
                 var ent = EntityManager.CreateEntity();

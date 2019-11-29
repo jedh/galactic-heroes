@@ -21,7 +21,11 @@ namespace GH.Data
 
         public float ThrustTolerance;
 
-		public float Hull;
+        public float MaxSpeedToTurn;
+
+        public bool DoesSwarm;
+
+        public float Hull;
 
 		public float Shields;
 

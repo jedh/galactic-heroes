@@ -35,7 +35,10 @@ namespace GH.Systems
 					TopSpeed = spawnShip.TopSpeed,
 					Acceleration = spawnShip.Acceleration,
 					Deceleration = spawnShip.Deceleration,
-					RotationSpeed = spawnShip.RotationSpeed
+					RotationSpeed = spawnShip.RotationSpeed,
+                    ThrustTolerance = spawnShip.ThrustTolerance,
+                    MaxSpeedToTurn = spawnShip.MaxSpeedToTurn,
+                    DoesSwarm = spawnShip.DoesSwarm
 				});
 
 				PostUpdateCommands.AddSharedComponent(spawnedEntity, new SharedFactionGrouping() { Faction = spawnShip.Faction });

@@ -36,8 +36,11 @@ namespace GH.Components
 				TopSpeed = ShipData.TopSpeed,
 				RotationSpeed = ShipData.RotationSpeed,
 				Acceleration = ShipData.Acceleration,
-				Deceleration = ShipData.Deceleration
-			};
+				Deceleration = ShipData.Deceleration,
+                ThrustTolerance = ShipData.ThrustTolerance,
+                MaxSpeedToTurn = ShipData.MaxSpeedToTurn,
+                DoesSwarm = ShipData.DoesSwarm,
+            };
 
 			dstManager.AddComponentData(entity, spawnShip);
 		}

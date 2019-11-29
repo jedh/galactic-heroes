@@ -39,7 +39,9 @@ namespace GH.Scripts
                     Acceleration = shipTypeEntry.ShipSpecs.Acceleration,
                     Deceleration = shipTypeEntry.ShipSpecs.Deceleration,
                     SquadSize = shipTypeEntry.ShipSpecs.SquadSize,
-                    ThrustTolerance = shipTypeEntry.ShipSpecs.ThrustTolerance
+                    ThrustTolerance = shipTypeEntry.ShipSpecs.ThrustTolerance,
+                    MaxSpeedToTurn = shipTypeEntry.ShipSpecs.MaxSpeedToTurn,
+                    DoesSwarm = shipTypeEntry.ShipSpecs.DoesSwarm
                 };
 
                 entityManager.AddComponentData(entity, spawnFleet);

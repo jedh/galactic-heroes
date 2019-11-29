@@ -14,20 +14,35 @@ namespace GH.Systems
 
         protected override void OnUpdate()
         {
-            Entities.ForEach((Entity entity, ref MovementStats stats, ref Translation translation, ref Velocity velocity, ref Rotation rotation, ref DeployToPosition moveToPosition) =>
+            Entities.ForEach((Entity entity, ref MovementStats stats, ref Translation translation, ref Velocity velocity, ref AngularVelocity angularVelocity, ref Rotation rotation, ref DeployToPosition moveToPosition) =>
             {
                 PostUpdateCommands.RemoveComponent<RotateTowardsPosition>(entity);
-                PostUpdateCommands.RemoveComponent<DeployToPosition>(entity);
                 PostUpdateCommands.RemoveComponent<MoveForward>(entity);
+                angularVelocity.Velocity = 0f;
 
-                PostUpdateCommands.AddComponent<MovingTo>(entity);
-                PostUpdateCommands.SetComponent(entity, new MovingTo() { Position = moveToPosition.Position, ShouldSTop = moveToPosition.ShouldDecelerate });
+                float speed = math.length(velocity.Value);
+                if(speed > stats.MaxSpeedToTurn)
+                {
+                    if (speed != 0f)
+                    {
+                        speed = math.max(speed - stats.Deceleration * Time.deltaTime * 0.5f, 0f);
 
-                PostUpdateCommands.AddComponent<FaceTarget>(entity);
-                PostUpdateCommands.SetComponent(entity, new FaceTarget() { Value = moveToPosition.Position });
+                        velocity.Value = math.normalize(velocity.Value) * speed;
+                    }
+                }
+                else
+                {
+                    PostUpdateCommands.RemoveComponent<DeployToPosition>(entity);
+
+                    PostUpdateCommands.AddComponent<DeployingTo>(entity);
+                    PostUpdateCommands.SetComponent(entity, new DeployingTo() { Position = moveToPosition.Position, ShouldStop = moveToPosition.ShouldStop });
+
+                    PostUpdateCommands.AddComponent<FaceTarget>(entity);
+                    PostUpdateCommands.SetComponent(entity, new FaceTarget() { Value = moveToPosition.Position });
+                }
             });
 
-            Entities.WithNone<MoveForward>().ForEach((Entity entity, ref MovementStats stats, ref Translation translation, ref Velocity velocity, ref Rotation rotation, ref MovingTo target) =>
+            Entities.WithNone<MoveForward>().ForEach((Entity entity, ref MovementStats stats, ref Translation translation, ref Velocity velocity, ref Rotation rotation, ref DeployingTo target) =>
             {
                 float3 toPos = math.normalize(target.Position - translation.Value);
                 float3 forward = math.normalize(math.forward(rotation.Value));
@@ -55,7 +70,7 @@ namespace GH.Systems
                 }
             });
 
-            Entities.ForEach((Entity entity, ref MovementStats stats, ref Translation translation, ref Velocity velocity, ref Rotation rotation, ref MovingTo moving, ref MoveForward moveForward) =>
+            Entities.ForEach((Entity entity, ref MovementStats stats, ref Translation translation, ref Velocity velocity, ref Rotation rotation, ref DeployingTo moving, ref MoveForward moveForward) =>
             {
                 float3 toTarget = moving.Position - translation.Value;
 
@@ -66,7 +81,7 @@ namespace GH.Systems
                 float distance = math.length(toTarget);
                 float3 forward = math.normalize(math.forward(rotation.Value));
 
-                if (moving.ShouldSTop)
+                if (moving.ShouldStop)
                 {
                     if (distance <= k_DistanceFromTarget)
                     {
@@ -75,7 +90,7 @@ namespace GH.Systems
                         velocity.Value = float3.zero;
                         translation.Value = moving.Position;
 
-                        PostUpdateCommands.RemoveComponent<MovingTo>(entity);
+                        PostUpdateCommands.RemoveComponent<DeployingTo>(entity);
                         PostUpdateCommands.RemoveComponent<FaceTarget>(entity);
                         PostUpdateCommands.RemoveComponent<MoveForward>(entity);
 
