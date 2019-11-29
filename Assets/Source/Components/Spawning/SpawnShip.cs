@@ -26,7 +26,13 @@ namespace GH.Components
 
 		public float Deceleration;
 
-		public int FleetID;
+        public float ThrustTolerance;
+
+        public float MaxSpeedToTurn;
+
+        public bool DoesSwarm;
+
+        public int FleetID;
 
 		public int GroupID;
 

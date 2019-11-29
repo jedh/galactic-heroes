@@ -17,5 +17,9 @@ namespace GH.Components
 		public float RotationSpeed;
 
         public float ThrustTolerance;   // [0, 1]
+
+        public float MaxSpeedToTurn;
+
+        public bool DoesSwarm;
 	}
 }

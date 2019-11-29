@@ -46,8 +46,6 @@ namespace GH.Systems
                     angularVelocity.Axis = axis;
                     angularVelocity.Velocity = 0f;
 
-                    rotation.Value = math.mul(rotation.Value, quaternion.AxisAngle(axis, angleRadians));
-
                     PostUpdateCommands.RemoveComponent<RotateTowardsPosition>(entity);
 
                     return;

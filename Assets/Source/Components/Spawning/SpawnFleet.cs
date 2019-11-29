@@ -28,6 +28,10 @@ namespace GH.Components
 
         public float ThrustTolerance;
 
+        public float MaxSpeedToTurn;
+
+        public bool DoesSwarm;
+
         public int SquadSize;
     }
 }

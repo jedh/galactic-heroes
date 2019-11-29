@@ -8,6 +8,6 @@ namespace GH.Components
     public struct DeployToPosition : IComponentData
     {
         public float3 Position;
-        public bool ShouldDecelerate;
+        public bool ShouldStop;
     }
 }
