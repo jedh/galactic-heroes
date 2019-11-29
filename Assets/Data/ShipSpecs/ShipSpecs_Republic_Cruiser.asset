@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e1052b47a0321b41968d8cf5d7c7103, type: 3}
   m_Name: ShipSpecs_Republic_Cruiser
   m_EditorClassIdentifier: 
-  ID: 16072
+  ID: 20906
   NameID: Republic_Cruiser
   Acceleration: 10
-  Deceleration: 0.1
+  Deceleration: 1
   TopSpeed: 25
-  RotationSpeed: 90
+  RotationSpeed: 400
+  ThrustTolerance: 0
   Hull: 0
   Shields: 0
   ShieldRechargeRate: 0
