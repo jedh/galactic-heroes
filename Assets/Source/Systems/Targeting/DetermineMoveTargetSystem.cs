@@ -28,12 +28,13 @@ namespace GH.Systems
 				}
 			});
 
-			Entities.ForEach((Entity e, ref Target target, ref DeployToPosition deployToPosition, ref Translation translation) =>
+			Entities.ForEach((Entity e, ref Target target, ref DeployToPosition deployToPosition, ref Translation translation, ref MovementStats movementStats) =>
 			{
 				if (TranslationData.Exists(target.TargetEntity))
 				{
 					var position = TranslationData[target.TargetEntity];
-					PostUpdateCommands.SetComponent(e, new DeployToPosition() { Position = position.Value, ShouldDecelerate = false });
+					var shouldStop = !movementStats.DoesSwarm;
+					PostUpdateCommands.SetComponent(e, new DeployToPosition() { Position = position.Value, ShouldStop = shouldStop });
 				}
 			});
 		}
