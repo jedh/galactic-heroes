@@ -19,7 +19,7 @@ namespace GH.Systems
                     mousePosition.y = 0f;
 
                     PostUpdateCommands.AddComponent<DeployToPosition>(entity);
-                    PostUpdateCommands.SetComponent(entity, new DeployToPosition() { Value = mousePosition });
+                    PostUpdateCommands.SetComponent(entity, new DeployToPosition() { Position = mousePosition });
                 }
             });
         }

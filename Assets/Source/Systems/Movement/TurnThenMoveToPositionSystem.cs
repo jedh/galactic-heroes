@@ -16,19 +16,19 @@ namespace GH.Systems
 
                 // TODO: maybe zero velocity to prevent drift?
 
-                PostUpdateCommands.AddComponent<Moving>(entity);
-                PostUpdateCommands.SetComponent(entity, new Moving() { Value = moveTo.Value });
+                PostUpdateCommands.AddComponent<MovingTo>(entity);
+                PostUpdateCommands.SetComponent(entity, new MovingTo() { Position = moveTo.Value });
 
                 PostUpdateCommands.AddComponent<RotateTowardsPosition>(entity);
                 PostUpdateCommands.SetComponent(entity, new RotateTowardsPosition() { Value = moveTo.Value });  // start rotating.
             });
 
-            Entities.WithAll<TurnThenMove>().WithNone<RotateTowardsPosition>().ForEach((Entity entity, ref Moving moveTo) =>
+            Entities.WithAll<TurnThenMove>().WithNone<RotateTowardsPosition>().ForEach((Entity entity, ref MovingTo moveTo) =>
             {
-                PostUpdateCommands.RemoveComponent<Moving>(entity);
+                PostUpdateCommands.RemoveComponent<MovingTo>(entity);
 
                 PostUpdateCommands.AddComponent<TranslateToPosition>(entity);
-                PostUpdateCommands.SetComponent(entity, new TranslateToPosition() { Value = moveTo.Value });  // start translating.
+                PostUpdateCommands.SetComponent(entity, new TranslateToPosition() { Value = moveTo.Position });  // start translating.
             });
         }
     }

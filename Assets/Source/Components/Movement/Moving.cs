@@ -5,8 +5,9 @@ using Unity.Mathematics;
 namespace GH.Components
 {
     [Serializable]
-    public struct Moving : IComponentData
+    public struct MovingTo : IComponentData
     {
-        public float3 Value;
+        public float3 Position;
+        public bool ShouldSTop;
     }
 }
