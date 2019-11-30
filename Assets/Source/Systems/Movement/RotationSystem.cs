@@ -1,4 +1,5 @@
-﻿using GH.Components;
+﻿using GH.SystemGroups;
+using GH.Components;
 using Unity.Entities;
 using Unity.Transforms;
 using Unity.Mathematics;
@@ -6,8 +7,9 @@ using UnityEngine;
 
 namespace GH.Systems
 {
+    [UpdateInGroup(typeof(BattleLogicSystemGroup))]
 	public class RotationSystem : ComponentSystem
-	{
+    {
 		protected override void OnUpdate()
 		{
 			Entities.ForEach((ref Rotation rotation, ref AngularVelocity angularVelocity) =>

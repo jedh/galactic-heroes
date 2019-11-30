@@ -11,7 +11,7 @@ namespace GH.Systems
 
         protected override void OnUpdate()
         {
-            Entities.WithAll<FollowMouse>().ForEach((Entity entity) =>
+            Entities.WithAll<FollowMouse>().ForEach((Entity entity, ref MovementStats stats) =>
             {
                 if(Input.GetMouseButtonDown(0))
                 {
@@ -19,7 +19,7 @@ namespace GH.Systems
                     mousePosition.y = 0f;
 
                     PostUpdateCommands.AddComponent<DeployToPosition>(entity);
-                    PostUpdateCommands.SetComponent(entity, new DeployToPosition() { Position = mousePosition });
+                    PostUpdateCommands.SetComponent(entity, new DeployToPosition() { Position = mousePosition, ShouldStop = !stats.DoesSwarm });
                 }
             });
         }

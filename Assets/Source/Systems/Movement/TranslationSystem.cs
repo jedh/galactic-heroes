@@ -1,11 +1,13 @@
 ﻿using Unity.Entities;
 using Unity.Transforms;
 using GH.Components;
+using GH.SystemGroups;
 using UnityEngine;
 
 namespace GH.Systems
 {
-	public class TranslationSystem : ComponentSystem
+    [UpdateInGroup(typeof(BattleLogicSystemGroup))]
+    public class TranslationSystem : ComponentSystem
 	{
 		protected override void OnUpdate()
 		{
