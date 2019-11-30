@@ -3,22 +3,64 @@ using GH.SystemGroups;
 using Unity.Entities;
 using Unity.Transforms;
 using Unity.Mathematics;
+using Unity.Collections;
+using Unity.Burst;
 using UnityEngine;
+using Unity.Jobs;
 
 namespace GH.Systems
 {
     [UpdateInGroup(typeof(BattleLogicSystemGroup)), UpdateBefore(typeof(TranslationSystem)), UpdateBefore(typeof(RotationSystem))]  // updates before so that deltaTime calculations are correct.
-    public class DeployToPositionSystem : ComponentSystem
+    public class DeployToPositionSystem : JobComponentSystem
     {
         private const float k_DistanceTolerance = 0.02f;
         private const float k_AngleTolerance = 0.9999f;
 
-        protected override void OnUpdate()
+        private BeginInitializationEntityCommandBufferSystem m_EntityCommandBufferSystem;
+
+        protected override void OnCreate()
         {
-            Entities.ForEach(
-                (Entity entity,
-                ref DeployToPosition deployment, ref MovementStats stats, ref Translation translation, ref Rotation rotation, ref Velocity velocity, ref AngularVelocity angularVelocity) =>
+            m_EntityCommandBufferSystem = World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
+            base.OnCreate();
+        }
+
+        protected override void OnDestroy()
+        {
+            m_EntityCommandBufferSystem = null;
+            base.OnDestroy();
+        }
+
+        protected override JobHandle OnUpdate(JobHandle inputDeps)
+        {
+            var commandBuffer = m_EntityCommandBufferSystem.CreateCommandBuffer().ToConcurrent();
+
+            var jobHandle = new DeployToPositionJob()
             {
+                CommandBuffer = commandBuffer,
+                DeltaTime = Time.deltaTime
+            }.Schedule(this, inputDeps);
+
+            m_EntityCommandBufferSystem.AddJobHandleForProducer(jobHandle);
+
+            return jobHandle;
+        }
+
+        struct DeployToPositionJob : IJobForEachWithEntity<DeployToPosition, MovementStats, Rotation, Translation, Velocity, AngularVelocity>
+        {
+            public EntityCommandBuffer.Concurrent CommandBuffer;
+            public float DeltaTime;
+
+            [BurstCompile]
+            public void Execute(Entity entity,
+                                int index, 
+                                [ReadOnly] ref DeployToPosition deployment, 
+                                [ReadOnly] ref MovementStats stats, 
+                                [ReadOnly] ref Rotation rotation, 
+                                ref Translation translation, 
+                                ref Velocity velocity, 
+                                ref AngularVelocity angularVelocity)
+            {
+
                 float3 toTarget = deployment.Position - translation.Value;
                 float distance = math.length(toTarget);
 
@@ -28,11 +70,10 @@ namespace GH.Systems
                     angularVelocity.Velocity = 0f;
                     translation.Value = deployment.Position;
 
-                    PostUpdateCommands.RemoveComponent<DeployToPosition>(entity);
+                    CommandBuffer.RemoveComponent<DeployToPosition>(index, entity);
 
                     return; // we're there, stop.
                 }
-
 
                 float speed = math.length(velocity.Value);
 
@@ -63,10 +104,10 @@ namespace GH.Systems
                     if (costheta >= k_AngleTolerance)
                     {
                         float angleRadians = math.acos(costheta);
-                        rotationSpeed = (float.IsNaN(angleRadians) ? 0f : angleRadians) * rotationDirection / Time.deltaTime;    // take us directly there this frame.
+                        rotationSpeed = (float.IsNaN(angleRadians) ? 0f : angleRadians) * rotationDirection / DeltaTime;    // take us directly there this frame.
                     }
 
-                    velocityDirection = math.rotate(quaternion.AxisAngle(rotationAxis, rotationSpeed * Time.deltaTime), velocityDirection);
+                    velocityDirection = math.rotate(quaternion.AxisAngle(rotationAxis, rotationSpeed * DeltaTime), velocityDirection);
 
                     angularVelocity.Axis = rotationAxis;
                     angularVelocity.Velocity = rotationSpeed;
@@ -86,36 +127,36 @@ namespace GH.Systems
 
                             if (distanceTravelledIfDecelerating >= distance)
                             {
-                                speed = math.clamp(speed - 0.5f * stats.Deceleration * Time.deltaTime, 0f, stats.TopSpeed);   // t(v - at/2)
+                                speed = math.clamp(speed - 0.5f * stats.Deceleration * DeltaTime, 0f, stats.TopSpeed);   // t(v - at/2)
                             }
                             else
                             {
-                                speed = math.clamp(speed + 0.5f * stats.Acceleration * Time.deltaTime, 0f, stats.TopSpeed);   // t(v - at/2)
+                                speed = math.clamp(speed + 0.5f * stats.Acceleration * DeltaTime, 0f, stats.TopSpeed);   // t(v - at/2)
                             }
 
                             speedInDirection = math.dot(toTarget, velocityDirection * speed);
 
-                            float distanceThisFrame = distance - speedInDirection * Time.deltaTime;
+                            float distanceThisFrame = distance - speedInDirection * DeltaTime;
                             if (distanceThisFrame < k_DistanceTolerance)
                             {
-                                speed = distance / Time.deltaTime; // take us right there this frame.
+                                speed = distance / DeltaTime; // take us right there this frame.
                             }
                         }
                         else
                         {
                             // don't stop, just keep accelerating.
-                            speed = math.clamp(speed + 0.5f * stats.Acceleration * Time.deltaTime, 0f, stats.TopSpeed);   // t(v - at/2)
+                            speed = math.clamp(speed + 0.5f * stats.Acceleration * DeltaTime, 0f, stats.TopSpeed);   // t(v - at/2)
                         }
                     }
                     else
                     {
                         // decelerate
-                        speed = math.clamp(speed - 0.5f * stats.Deceleration * Time.deltaTime, 0f, stats.TopSpeed);   // t(v - at/2)
+                        speed = math.clamp(speed - 0.5f * stats.Deceleration * DeltaTime, 0f, stats.TopSpeed);   // t(v - at/2)
                     }
 
                     velocity.Value = velocityDirection * speed;
                 }
-            });
+            }
         }
     }
 }
