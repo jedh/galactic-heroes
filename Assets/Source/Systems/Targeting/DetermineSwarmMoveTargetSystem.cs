@@ -21,6 +21,15 @@ namespace GH.Systems
 
             Entities.WithAll<SwarmMovement>().WithNone<DeployToPosition>().ForEach((Entity e, ref Target target, ref Translation translation) =>
             {
+                //var targetEntity = target.TargetEntity;
+                //Entities.ForEach((Entity otherEntity, ref Ship ship, ref Translation otherTranslation) =>
+                //{
+                //    if (targetEntity == otherEntity)
+                //    {
+                //        PostUpdateCommands.AddComponent(e, new DeployToPosition() { Position = otherTranslation.Value, ShouldStop = false });
+                //    }
+                //});
+
                 if (TranslationData.Exists(target.TargetEntity))
                 {
                     var position = TranslationData[target.TargetEntity];
@@ -30,6 +39,15 @@ namespace GH.Systems
 
             Entities.WithAll<SwarmMovement>().ForEach((Entity e, ref Target target, ref DeployToPosition deployToPosition, ref Translation translation) =>
             {
+                //var targetEntity = target.TargetEntity;
+                //Entities.ForEach((Entity otherEntity, ref Ship ship, ref Translation otherTranslation) =>
+                //{
+                //    if (targetEntity == otherEntity)
+                //    {
+                //        PostUpdateCommands.SetComponent(e, new DeployToPosition() { Position = otherTranslation.Value, ShouldStop = false });
+                //    }
+                //});
+
                 if (TranslationData.Exists(target.TargetEntity))
                 {
                     var position = TranslationData[target.TargetEntity];

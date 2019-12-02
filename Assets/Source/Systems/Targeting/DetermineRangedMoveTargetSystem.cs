@@ -1,9 +1,11 @@
 ﻿using GH.Components;
 using GH.SystemGroups;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Entities;
+using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
 
@@ -23,8 +25,12 @@ namespace GH.Systems
             {
                 if (TranslationData.Exists(target.TargetEntity))
                 {
-                    var position = TranslationData[target.TargetEntity];
-                    PostUpdateCommands.AddComponent(e, new DeployToPosition() { Position = position.Value });
+                    var targetPosition = TranslationData[target.TargetEntity];
+                    var distanceSq = math.distancesq(targetPosition.Value, translation.Value);
+                    if (distanceSq > weaponStats.OptimalRange)
+                    {
+                        PostUpdateCommands.AddComponent(e, new DeployToPosition() { Position = targetPosition.Value });
+                    }
                 }
             });
 
@@ -32,8 +38,12 @@ namespace GH.Systems
             {
                 if (TranslationData.Exists(target.TargetEntity))
                 {
-                    var position = TranslationData[target.TargetEntity];
-                    PostUpdateCommands.SetComponent(e, new DeployToPosition() { Position = position.Value, ShouldStop = true });
+                    var targetPosition = TranslationData[target.TargetEntity];
+                    var distanceSq = math.distancesq(targetPosition.Value, translation.Value);
+                    if (distanceSq > weaponStats.OptimalRange)
+                    {
+                        PostUpdateCommands.SetComponent(e, new DeployToPosition() { Position = targetPosition.Value, ShouldStop = true });
+                    } 
                 }
             });
         }
