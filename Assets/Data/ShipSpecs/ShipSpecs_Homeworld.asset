@@ -12,15 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e1052b47a0321b41968d8cf5d7c7103, type: 3}
   m_Name: ShipSpecs_Homeworld
   m_EditorClassIdentifier: 
-  ID: 21722
+  ID: 21400
   NameID: Homeworld_Ship
   Acceleration: 10
   Deceleration: 1
   TopSpeed: 25
   RotationSpeed: 400
   ThrustTolerance: 0
+  MaxSpeedToTurn: 0
+  DoesSwarm: 0
   Hull: 0
   Shields: 0
   ShieldRechargeRate: 0
   CrewCount: 0
   SquadSize: 1
+  WeaponSpecs: {fileID: 11400000, guid: 6f501af816acd3144bbfeb36edf847b3, type: 2}

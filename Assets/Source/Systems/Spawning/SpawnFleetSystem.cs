@@ -21,7 +21,7 @@ namespace GH.Systems
 
 		protected override void OnUpdate()
 		{
-			Entities.WithNone<SpawnEntityState>().ForEach((Entity entity, ref SpawnFleet spawnFleet) =>
+			Entities.WithNone<SpawnEntityState>().ForEach((Entity entity, ref SpawnFleet spawnFleet, ref WeaponStats weaponStats) =>
 			{
 				SharedFleetGrouping sharedFleetGrouping;
 				if (!m_SharedFleetGroupingMap.TryGetValue(spawnFleet.FleetID, out sharedFleetGrouping))
@@ -37,7 +37,6 @@ namespace GH.Systems
 				var moveSpeed = default(Velocity);
 				var rotateSpeed = default(AngularVelocity);
 				var localToWorld = new LocalToWorld();
-				var findTarget = new FindTarget();
 				var movementStats = new MovementStats()
 				{
 					TopSpeed = spawnFleet.TopSpeed,
@@ -48,6 +47,17 @@ namespace GH.Systems
 					MaxSpeedToTurn = spawnFleet.MaxSpeedToTurn,
 					DoesSwarm = spawnFleet.DoesSwarm
 				};
+
+                var newWeaponStats = weaponStats; // This might not be needed, can maybe add component directly if added by value.
+                var swarmCombatMovement = default(SwarmMovement);
+                var rangedCombatMovement = new RangedMovement()
+                {
+                    // Grab stats from weapon data and square them for later calculations.
+                    MinRangeSq = weaponStats.MinRange * weaponStats.MinRange,
+                    MaxRangeSq = weaponStats.MaxRange * weaponStats.MaxRange,
+                    OptimalRangeSq = weaponStats.OptimalRange * weaponStats.OptimalRange
+
+                }; 
 
 				var shipEntities = new NativeArray<Entity>(spawnFleet.ShipCount * spawnFleet.SquadSize, Allocator.Temp);
 
@@ -63,6 +73,7 @@ namespace GH.Systems
                     EntityManager.AddComponent<AngularVelocity>(ent);
                     EntityManager.AddComponent<FindTarget>(ent);
                     EntityManager.AddComponent<InitialDeploy>(ent);
+                    EntityManager.AddComponent<WeaponStats>(ent);
 
                     EntityManager.AddSharedComponentData(ent, sharedFleetGrouping);
 
@@ -74,6 +85,7 @@ namespace GH.Systems
                     EntityManager.SetComponentData(ent, moveSpeed);
                     EntityManager.SetComponentData(ent, rotateSpeed);
                     EntityManager.SetComponentData(ent, deploy);
+                    EntityManager.SetComponentData(ent, weaponStats);
                 }
 
                 // apply the above to all spawned entities.
@@ -92,8 +104,15 @@ namespace GH.Systems
 					{
 						ship.InstanceID = index;
 
-						PostUpdateCommands.SetComponent(shipEntities[index], ship);
-
+                        if (spawnFleet.DoesSwarm)
+                        {
+                            PostUpdateCommands.AddComponent(shipEntities[index], swarmCombatMovement);
+                        }
+                        else
+                        {
+                            PostUpdateCommands.AddComponent(shipEntities[index], rangedCombatMovement);
+                        }
+                        
 						if (spawnFleet.SquadSize > 1)
 						{
 							PostUpdateCommands.AddSharedComponent(shipEntities[index], sharedSquadGrouping);

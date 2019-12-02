@@ -20,16 +20,16 @@ namespace GH.Systems
 		{
 			Entities.ForEach((Entity entity, ref InitialDeploy deploy, ref Translation translation) =>
 			{
-				float3 randomPosition = m_Random.NextFloat3(-5f, 5f);
+				float3 randomPosition = m_Random.NextFloat3(-10f, 10f);
 				randomPosition.y = 0f;
 
-				float zOffset = 5f;
+				float zOffset = 6f;
 				if (deploy.FleetID == 1)
 				{
-					zOffset = -5f;
+					zOffset = -zOffset;
 				}
 
-				randomPosition.z = (randomPosition.z / 5f) + zOffset;
+				randomPosition.z = (randomPosition.z * 0.1f) + zOffset;
 
 				float3 startingPosition = randomPosition;
 				startingPosition.z += zOffset;

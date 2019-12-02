@@ -21,6 +21,8 @@ namespace GH.Data
 
         public float MaxRange;
 
+        public float OptimalRange;
+
         public float ChargeTime;
 
         public float ProjectileSpeed;

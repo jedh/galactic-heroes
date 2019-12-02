@@ -20,6 +20,8 @@ namespace GH.Components
 
         public float MaxSpeedToTurn;
 
+        public float MaxSpeedToFire;
+
         public bool DoesSwarm;
 	}
 }
