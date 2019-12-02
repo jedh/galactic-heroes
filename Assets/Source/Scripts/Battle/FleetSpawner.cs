@@ -44,7 +44,17 @@ namespace GH.Scripts
                     DoesSwarm = shipTypeEntry.ShipSpecs.DoesSwarm
                 };
 
+                var weaponSpecs = shipTypeEntry.ShipSpecs.WeaponSpecs;
+                var weaponsStats = new WeaponStats()
+                {
+                    Damage = weaponSpecs.Damage,
+                    MinRange = weaponSpecs.MinRange,
+                    MaxRange = weaponSpecs.MaxRange,
+                    OptimalRange = weaponSpecs.OptimalRange
+                };
+
                 entityManager.AddComponentData(entity, spawnFleet);
+                entityManager.AddComponentData(entity, weaponsStats);
             }
 		}
 	}

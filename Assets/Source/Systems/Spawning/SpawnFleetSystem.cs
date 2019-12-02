@@ -21,7 +21,7 @@ namespace GH.Systems
 
 		protected override void OnUpdate()
 		{
-			Entities.WithNone<SpawnEntityState>().ForEach((Entity entity, ref SpawnFleet spawnFleet) =>
+			Entities.WithNone<SpawnEntityState>().ForEach((Entity entity, ref SpawnFleet spawnFleet, ref WeaponStats weaponStats) =>
 			{
 				SharedFleetGrouping sharedFleetGrouping;
 				if (!m_SharedFleetGroupingMap.TryGetValue(spawnFleet.FleetID, out sharedFleetGrouping))
@@ -37,7 +37,6 @@ namespace GH.Systems
 				var moveSpeed = default(Velocity);
 				var rotateSpeed = default(AngularVelocity);
 				var localToWorld = new LocalToWorld();
-				var followMouse = new FollowMouse();
 				var findTarget = new FindTarget();
 				var movementStats = new MovementStats()
 				{
@@ -49,6 +48,17 @@ namespace GH.Systems
 					MaxSpeedToTurn = spawnFleet.MaxSpeedToTurn,
 					DoesSwarm = spawnFleet.DoesSwarm
 				};
+
+                var newWeaponStats = weaponStats; // This might not be needed, can maybe add component directly if added by value.
+                var swarmCombatMovement = default(SwarmMovement);
+                var rangedCombatMovement = new RangedMovement()
+                {
+                    // Grab stats from weapon data and square them for later calculations.
+                    MinRangeSq = weaponStats.MinRange * weaponStats.MinRange,
+                    MaxRangeSq = weaponStats.MaxRange * weaponStats.MaxRange,
+                    OptimalRangeSq = weaponStats.OptimalRange * weaponStats.OptimalRange
+
+                }; 
 
 				var shipEntities = new NativeArray<Entity>(spawnFleet.ShipCount * spawnFleet.SquadSize, Allocator.Temp);
 				var ent = EntityManager.CreateEntity();
@@ -75,8 +85,18 @@ namespace GH.Systems
 						PostUpdateCommands.AddComponent(shipEntities[index], rotateSpeed);
 						PostUpdateCommands.AddComponent(shipEntities[index], localToWorld);
 						PostUpdateCommands.AddComponent(shipEntities[index], movementStats);
-						PostUpdateCommands.AddComponent(shipEntities[index], followMouse);
 						PostUpdateCommands.AddComponent(shipEntities[index], findTarget);
+						PostUpdateCommands.AddComponent(shipEntities[index], newWeaponStats);
+
+                        if (spawnFleet.DoesSwarm)
+                        {
+                            PostUpdateCommands.AddComponent(shipEntities[index], swarmCombatMovement);
+                        }
+                        else
+                        {
+                            PostUpdateCommands.AddComponent(shipEntities[index], rangedCombatMovement);
+                        }
+                        
 						PostUpdateCommands.AddSharedComponent(shipEntities[index], sharedFleetGrouping);
 
 						if (spawnFleet.SquadSize > 1)

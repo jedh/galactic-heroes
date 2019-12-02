@@ -36,6 +36,8 @@ namespace GH.Data
         [Range(1, 100)]
         public int SquadSize = 1;
 
+        public WeaponSpecsData WeaponSpecs;
+
 		private void Awake()
 		{
 			ID = GetHashCode();
