@@ -11,21 +11,21 @@ namespace GH.Data
 
 		public string NameID;
 
-        public float Acceleration;
+		public float Acceleration;
 
-        public float Deceleration;
+		public float Deceleration;
 
 		public float TopSpeed;
 
 		public float RotationSpeed;
 
-        public float ThrustTolerance;
+		public float ThrustTolerance;
 
-        public float MaxSpeedToTurn;
+		public float MaxSpeedToTurn;
 
-        public bool DoesSwarm;
+		public bool DoesSwarm;
 
-        public float Hull;
+		public float Hull;
 
 		public float Shields;
 
@@ -33,10 +33,10 @@ namespace GH.Data
 
 		public int CrewCount;
 
-        [Range(1, 100)]
-        public int SquadSize = 1;
+		[Range(1, 100)]
+		public int SquadSize = 1;
 
-        public WeaponSpecsData WeaponSpecs;
+		public WeaponSpecsData WeaponSpecs;
 
 		private void Awake()
 		{

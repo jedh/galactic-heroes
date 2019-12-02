@@ -48,48 +48,49 @@ namespace GH.Systems
 					DoesSwarm = spawnFleet.DoesSwarm
 				};
 
-                var newWeaponStats = weaponStats; // This might not be needed, can maybe add component directly if added by value.
-                var swarmCombatMovement = default(SwarmMovement);
-                var rangedCombatMovement = new RangedMovement()
-                {
-                    // Grab stats from weapon data and square them for later calculations.
-                    MinRangeSq = weaponStats.MinRange * weaponStats.MinRange,
-                    MaxRangeSq = weaponStats.MaxRange * weaponStats.MaxRange,
-                    OptimalRangeSq = weaponStats.OptimalRange * weaponStats.OptimalRange
+				var newWeaponStats = weaponStats; // This might not be needed, can maybe add component directly if added by value.
 
-                }; 
+				//var swarmCombatMovement = default(SwarmMovement);
+				//var rangedCombatMovement = new RangedMovement()
+				//{
+				//    // Grab stats from weapon data and square them for later calculations.
+				//    MinRangeSq = weaponStats.MinRange * weaponStats.MinRange,
+				//    MaxRangeSq = weaponStats.MaxRange * weaponStats.MaxRange,
+				//    OptimalRangeSq = weaponStats.OptimalRange * weaponStats.OptimalRange
+
+				//}; 
 
 				var shipEntities = new NativeArray<Entity>(spawnFleet.ShipCount * spawnFleet.SquadSize, Allocator.Temp);
 
-                var ent = EntityManager.CreateEntity();
-                {
-                    // do this once only.
-                    EntityManager.AddComponent<Ship>(ent);
-                    EntityManager.AddComponent<MovementStats>(ent);
-                    EntityManager.AddComponent<LocalToWorld>(ent);
-                    EntityManager.AddComponent<Translation>(ent);
-                    EntityManager.AddComponent<Rotation>(ent);
-                    EntityManager.AddComponent<Velocity>(ent);
-                    EntityManager.AddComponent<AngularVelocity>(ent);
-                    EntityManager.AddComponent<FindTarget>(ent);
-                    EntityManager.AddComponent<InitialDeploy>(ent);
-                    EntityManager.AddComponent<WeaponStats>(ent);
+				var ent = EntityManager.CreateEntity();
+				{
+					// do this once only.
+					EntityManager.AddComponent<Ship>(ent);
+					EntityManager.AddComponent<MovementStats>(ent);
+					EntityManager.AddComponent<LocalToWorld>(ent);
+					EntityManager.AddComponent<Translation>(ent);
+					EntityManager.AddComponent<Rotation>(ent);
+					EntityManager.AddComponent<Velocity>(ent);
+					EntityManager.AddComponent<AngularVelocity>(ent);
+					EntityManager.AddComponent<FindTarget>(ent);
+					EntityManager.AddComponent<InitialDeploy>(ent);
+					EntityManager.AddComponent<WeaponStats>(ent);
 
-                    EntityManager.AddSharedComponentData(ent, sharedFleetGrouping);
+					EntityManager.AddSharedComponentData(ent, sharedFleetGrouping);
 
-                    EntityManager.SetComponentData(ent, ship);
-                    EntityManager.SetComponentData(ent, movementStats);
-                    EntityManager.SetComponentData(ent, localToWorld);
-                    EntityManager.SetComponentData(ent, translation);
-                    EntityManager.SetComponentData(ent, rotation);
-                    EntityManager.SetComponentData(ent, moveSpeed);
-                    EntityManager.SetComponentData(ent, rotateSpeed);
-                    EntityManager.SetComponentData(ent, deploy);
-                    EntityManager.SetComponentData(ent, weaponStats);
-                }
+					EntityManager.SetComponentData(ent, ship);
+					EntityManager.SetComponentData(ent, movementStats);
+					EntityManager.SetComponentData(ent, localToWorld);
+					EntityManager.SetComponentData(ent, translation);
+					EntityManager.SetComponentData(ent, rotation);
+					EntityManager.SetComponentData(ent, moveSpeed);
+					EntityManager.SetComponentData(ent, rotateSpeed);
+					EntityManager.SetComponentData(ent, deploy);
+					EntityManager.SetComponentData(ent, weaponStats);
+				}
 
-                // apply the above to all spawned entities.
-                EntityManager.Instantiate(ent, shipEntities);
+				// apply the above to all spawned entities.
+				EntityManager.Instantiate(ent, shipEntities);
 
 				var index = 0;
 				for (var i = 0; i < spawnFleet.ShipCount; i++)
@@ -104,15 +105,15 @@ namespace GH.Systems
 					{
 						ship.InstanceID = index;
 
-                        if (spawnFleet.DoesSwarm)
-                        {
-                            PostUpdateCommands.AddComponent(shipEntities[index], swarmCombatMovement);
-                        }
-                        else
-                        {
-                            PostUpdateCommands.AddComponent(shipEntities[index], rangedCombatMovement);
-                        }
-                        
+						//if (spawnFleet.DoesSwarm)
+						//{
+						//	PostUpdateCommands.AddComponent(shipEntities[index], swarmCombatMovement);
+						//}
+						//else
+						//{
+						//	PostUpdateCommands.AddComponent(shipEntities[index], rangedCombatMovement);
+						//}
+
 						if (spawnFleet.SquadSize > 1)
 						{
 							PostUpdateCommands.AddSharedComponent(shipEntities[index], sharedSquadGrouping);
