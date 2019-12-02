@@ -1,12 +1,12 @@
-﻿using Unity.Entities;
+﻿using GH.Components;
+using GH.SystemGroups;
+using Unity.Entities;
 using Unity.Transforms;
 using Unity.Collections;
 using Unity.Mathematics;
 using Unity.Burst;
-using GH.Components;
-using GH.SystemGroups;
-using UnityEngine;
 using Unity.Jobs;
+using UnityEngine;
 
 namespace GH.Systems
 {
@@ -18,12 +18,16 @@ namespace GH.Systems
             return new RotationJob() { DeltaTime = Time.deltaTime }.Schedule(this, inputDeps);
         }
 
+        //--------------------------
+        // Jobs
+        //--------------------------
+
+        [BurstCompile]
         struct RotationJob : IJobForEach<Rotation, AngularVelocity>
         {
             public float DeltaTime;
 
-            [BurstCompile]
-            public void Execute(ref Rotation rotation, ref AngularVelocity angularVelocity)
+            public void Execute(ref Rotation rotation, [ReadOnly] ref AngularVelocity angularVelocity)
             {
                 if (angularVelocity.Velocity != 0f && (angularVelocity.Axis.x != 0f || angularVelocity.Axis.y != 0f || angularVelocity.Axis.z != 0f))
                 {

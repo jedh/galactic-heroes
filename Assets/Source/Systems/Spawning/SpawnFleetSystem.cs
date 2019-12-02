@@ -37,7 +37,6 @@ namespace GH.Systems
 				var moveSpeed = default(Velocity);
 				var rotateSpeed = default(AngularVelocity);
 				var localToWorld = new LocalToWorld();
-				var followMouse = new FollowMouse();
 				var findTarget = new FindTarget();
 				var movementStats = new MovementStats()
 				{
@@ -51,8 +50,34 @@ namespace GH.Systems
 				};
 
 				var shipEntities = new NativeArray<Entity>(spawnFleet.ShipCount * spawnFleet.SquadSize, Allocator.Temp);
-				var ent = EntityManager.CreateEntity();
-				EntityManager.Instantiate(ent, shipEntities);
+
+                var ent = EntityManager.CreateEntity();
+                {
+                    // do this once only.
+                    EntityManager.AddComponent<Ship>(ent);
+                    EntityManager.AddComponent<MovementStats>(ent);
+                    EntityManager.AddComponent<LocalToWorld>(ent);
+                    EntityManager.AddComponent<Translation>(ent);
+                    EntityManager.AddComponent<Rotation>(ent);
+                    EntityManager.AddComponent<Velocity>(ent);
+                    EntityManager.AddComponent<AngularVelocity>(ent);
+                    EntityManager.AddComponent<FindTarget>(ent);
+                    EntityManager.AddComponent<InitialDeploy>(ent);
+
+                    EntityManager.AddSharedComponentData(ent, sharedFleetGrouping);
+
+                    EntityManager.SetComponentData(ent, ship);
+                    EntityManager.SetComponentData(ent, movementStats);
+                    EntityManager.SetComponentData(ent, localToWorld);
+                    EntityManager.SetComponentData(ent, translation);
+                    EntityManager.SetComponentData(ent, rotation);
+                    EntityManager.SetComponentData(ent, moveSpeed);
+                    EntityManager.SetComponentData(ent, rotateSpeed);
+                    EntityManager.SetComponentData(ent, deploy);
+                }
+
+                // apply the above to all spawned entities.
+                EntityManager.Instantiate(ent, shipEntities);
 
 				var index = 0;
 				for (var i = 0; i < spawnFleet.ShipCount; i++)
@@ -65,19 +90,9 @@ namespace GH.Systems
 
 					for (var j = 0; j < spawnFleet.SquadSize; j++)
 					{
-						Debug.Log(index);
 						ship.InstanceID = index;
-						PostUpdateCommands.AddComponent(shipEntities[index], ship);
-						PostUpdateCommands.AddComponent(shipEntities[index], translation);
-						PostUpdateCommands.AddComponent(shipEntities[index], rotation);
-						PostUpdateCommands.AddComponent(shipEntities[index], deploy);
-						PostUpdateCommands.AddComponent(shipEntities[index], moveSpeed);
-						PostUpdateCommands.AddComponent(shipEntities[index], rotateSpeed);
-						PostUpdateCommands.AddComponent(shipEntities[index], localToWorld);
-						PostUpdateCommands.AddComponent(shipEntities[index], movementStats);
-						PostUpdateCommands.AddComponent(shipEntities[index], followMouse);
-						PostUpdateCommands.AddComponent(shipEntities[index], findTarget);
-						PostUpdateCommands.AddSharedComponent(shipEntities[index], sharedFleetGrouping);
+
+						PostUpdateCommands.SetComponent(shipEntities[index], ship);
 
 						if (spawnFleet.SquadSize > 1)
 						{

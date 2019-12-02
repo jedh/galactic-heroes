@@ -5,8 +5,8 @@ using Unity.Transforms;
 using Unity.Mathematics;
 using Unity.Collections;
 using Unity.Burst;
-using UnityEngine;
 using Unity.Jobs;
+using UnityEngine;
 
 namespace GH.Systems
 {
@@ -16,11 +16,11 @@ namespace GH.Systems
         private const float k_DistanceTolerance = 0.02f;
         private const float k_AngleTolerance = 0.9999f;
 
-        private BeginInitializationEntityCommandBufferSystem m_EntityCommandBufferSystem;
+        private EntityCommandBufferSystem m_EntityCommandBufferSystem;
 
         protected override void OnCreate()
         {
-            m_EntityCommandBufferSystem = World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
+            m_EntityCommandBufferSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
             base.OnCreate();
         }
 
@@ -32,27 +32,48 @@ namespace GH.Systems
 
         protected override JobHandle OnUpdate(JobHandle inputDeps)
         {
-            var commandBuffer = m_EntityCommandBufferSystem.CreateCommandBuffer().ToConcurrent();
+            NativeQueue<CompletedDeployment> queue = new NativeQueue<CompletedDeployment>(Allocator.TempJob);
 
-            var jobHandle = new DeployToPositionJob()
+            var deployJobHandle = new DeployToPositionJob()
             {
-                CommandBuffer = commandBuffer,
-                DeltaTime = Time.deltaTime
+                DeltaTime = Time.deltaTime,
+                CompletedDeployments = queue.AsParallelWriter()
             }.Schedule(this, inputDeps);
 
-            m_EntityCommandBufferSystem.AddJobHandleForProducer(jobHandle);
+            var removeJobHandle = new RemoveCompletedDeploymentsJob()
+            {
+                CommandBuffer = m_EntityCommandBufferSystem.CreateCommandBuffer().ToConcurrent(),
+                ToRemoveQueue = queue
+            }.Schedule(deployJobHandle); ;
 
-            return jobHandle;
+            var queueCleanupJobHandle = queue.Dispose(removeJobHandle);
+
+            m_EntityCommandBufferSystem.AddJobHandleForProducer(queueCleanupJobHandle);
+
+            return queueCleanupJobHandle;
         }
 
-        struct DeployToPositionJob : IJobForEachWithEntity<DeployToPosition, MovementStats, Rotation, Translation, Velocity, AngularVelocity>
+        //--------------------------
+        // Jobs
+        //--------------------------
+
+        private struct CompletedDeployment
         {
-            public EntityCommandBuffer.Concurrent CommandBuffer;
+            public int JobIndex;
+            public Entity Entity;
+        }
+
+        [BurstCompile]
+        private struct DeployToPositionJob : IJobForEachWithEntity<DeployToPosition, MovementStats, Rotation, Translation, Velocity, AngularVelocity>
+        {
+            [WriteOnly]
+            public NativeQueue<CompletedDeployment>.ParallelWriter CompletedDeployments;
+
+            [ReadOnly]
             public float DeltaTime;
 
-            [BurstCompile]
             public void Execute(Entity entity,
-                                int index, 
+                                int jobIndex, 
                                 [ReadOnly] ref DeployToPosition deployment, 
                                 [ReadOnly] ref MovementStats stats, 
                                 [ReadOnly] ref Rotation rotation, 
@@ -70,7 +91,7 @@ namespace GH.Systems
                     angularVelocity.Velocity = 0f;
                     translation.Value = deployment.Position;
 
-                    CommandBuffer.RemoveComponent<DeployToPosition>(index, entity);
+                    CompletedDeployments.Enqueue(new CompletedDeployment() { Entity = entity, JobIndex = jobIndex });
 
                     return; // we're there, stop.
                 }
@@ -155,6 +176,22 @@ namespace GH.Systems
                     }
 
                     velocity.Value = velocityDirection * speed;
+                }
+            }
+        }
+
+        private struct RemoveCompletedDeploymentsJob : IJob
+        {
+            public NativeQueue<CompletedDeployment> ToRemoveQueue;
+
+            [WriteOnly]
+            public EntityCommandBuffer.Concurrent CommandBuffer;
+
+            public void Execute()
+            {
+                while (ToRemoveQueue.TryDequeue(out CompletedDeployment r))
+                {
+                    CommandBuffer.RemoveComponent<DeployToPosition>(r.JobIndex, r.Entity);
                 }
             }
         }
