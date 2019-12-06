@@ -30,13 +30,14 @@ namespace GH.Systems
 					m_SharedFleetGroupingMap.Add(spawnFleet.FleetID, sharedFleetGrouping);
 				}
 
-				var ship = new Ship() { ID = spawnFleet.ShipID };
+				var ship = new Ship() { ID = spawnFleet.ShipID, FleetID = spawnFleet.FleetID };
 				var deploy = new InitialDeploy() { FleetID = spawnFleet.FleetID };
 				var translation = new Translation() { Value = new float3(100, 0, 100) };
 				var rotation = new Rotation() { Value = quaternion.identity };
 				var moveSpeed = default(Velocity);
 				var rotateSpeed = default(AngularVelocity);
 				var localToWorld = new LocalToWorld();
+				var findTarget = new FindTarget() { FoundEntity = Entity.Null };
 				var movementStats = new MovementStats()
 				{
 					TopSpeed = spawnFleet.TopSpeed,
@@ -86,6 +87,7 @@ namespace GH.Systems
 					EntityManager.SetComponentData(ent, moveSpeed);
 					EntityManager.SetComponentData(ent, rotateSpeed);
 					EntityManager.SetComponentData(ent, deploy);
+					EntityManager.SetComponentData(ent, findTarget);
 					EntityManager.SetComponentData(ent, weaponStats);
 				}
 

@@ -91,6 +91,12 @@ namespace GH.Systems
 							var direction = targetPosition.Value - translation.Value;
 							direction = math.normalizesafe(direction);
 							var optimalPosition = translation.Value + (direction * math.sqrt(combatMovement.OptimalRangeSq));
+
+							if (!float.IsNaN(targetPosition.Value.x))
+							{
+								Debug.Log("target nan");
+							}
+
 							deployToPosition.Position = optimalPosition;
 						}
 						else

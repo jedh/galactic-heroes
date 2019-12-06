@@ -5,13 +5,15 @@ using Unity.Mathematics;
 
 namespace GH.Components
 {
-    [Serializable]
-    public struct Ship : IComponentData
-    {
-        // Non-unique ship ID (ship type).
-        public int ID;
+	[Serializable]
+	public struct Ship : IComponentData
+	{
+		// Non-unique ship ID (ship type).
+		public int ID;
 
-        // Unique ship ID.
-        public int InstanceID;
-    }
+		// Unique ship ID.
+		public int InstanceID;
+
+		public int FleetID;
+	}
 }
