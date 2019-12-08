@@ -104,12 +104,13 @@ namespace GH.Systems
 				float3 velocityDirection = speed == 0f ? forward : math.normalize(velocity.Value);
 
 				toTarget = toTarget / distance; // normalize
-				float costheta = math.dot(toTarget, forward);
+                float costheta = distance == 0f ? 1 : math.dot(toTarget, forward);
 
 
 
-				// Rotation
-				{
+                // Rotation
+                if(distance != 0f)
+                {
 					float3 rotationAxis = costheta == -1 || costheta == 1 ? math.up() : math.normalize(math.cross(forward, toTarget));
 					float rotationDirection = math.saturate(math.sign(math.dot(rotationAxis, math.up())) + 1) * 2 - 1;  // -1 or 1
 					float rotationSpeed = math.radians(stats.RotationSpeed) * rotationDirection;
