@@ -11,23 +11,29 @@ namespace GH.Systems
 	{
 		Unity.Mathematics.Random m_Random;
 
-		protected override void OnCreate()
+        const float k_Width = 20f;
+        const float k_Height = 10f;
+
+        protected override void OnCreate()
 		{
 			m_Random = new Unity.Mathematics.Random((uint)System.DateTime.Now.Ticks);
 		}
 
 		protected override void OnUpdate()
 		{
-			Entities.ForEach((Entity entity, ref InitialDeploy deploy, ref Translation translation) =>
+			Entities.ForEach((Entity entity, ref InitialDeploy deploy, ref Translation translation, ref Rotation rotation) =>
 			{
-				float3 randomPosition = m_Random.NextFloat3(-10f, 10f);
-				randomPosition.y = 0f;
+                float3 randomPosition = new float3(m_Random.NextFloat(-k_Width, k_Width), 0f, m_Random.NextFloat(-k_Height, k_Height));
 
 				float zOffset = 6f;
 				if (deploy.FleetID == 1)
 				{
 					zOffset = -zOffset;
 				}
+                else
+                {
+                    rotation.Value = math.mul(rotation.Value, quaternion.AxisAngle(math.up(), math.radians(180f)));
+                }
 
 				randomPosition.z = (randomPosition.z * 0.1f) + zOffset;
 
