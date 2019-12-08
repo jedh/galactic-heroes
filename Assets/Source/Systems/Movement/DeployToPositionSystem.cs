@@ -1,4 +1,5 @@
-﻿using GH.Components;
+﻿using GH.Utils;
+using GH.Components;
 using GH.SystemGroups;
 using Unity.Entities;
 using Unity.Transforms;
@@ -82,9 +83,11 @@ namespace GH.Systems
 								ref Translation translation,
 								ref Velocity velocity,
 								ref AngularVelocity angularVelocity)
-			{
+            {
+                NaNDebugger.IsNan(deployment.Position.x, $"[{jobIndex}, {entity.Index}] deployment.Position");
+                NaNDebugger.IsNan(translation.Value.x, $"[{jobIndex}, {entity.Index}] translation");
 
-				float3 toTarget = deployment.Position - translation.Value;
+                float3 toTarget = deployment.Position - translation.Value;
 				float distance = math.length(toTarget);
 
 				if (deployment.ShouldStop && distance <= k_DistanceTolerance)
@@ -137,10 +140,12 @@ namespace GH.Systems
 					angularVelocity.Velocity = rotationSpeed;
 				}
 
+                NaNDebugger.IsNan(angularVelocity.Axis.x, $"[{jobIndex}, {entity.Index}] rotationAxis");
+                NaNDebugger.IsNan(angularVelocity.Axis.x, $"[{jobIndex}, {entity.Index}] rotationSpeed");
+                NaNDebugger.IsNan(velocityDirection.x, $"[{jobIndex}, {entity.Index}] velocityDirection");
 
-
-				// Translation
-				{
+                // Translation
+                {
 					if (costheta >= stats.ThrustTolerance)  // have we turned enough to begin moving forward?
 					{
 						if (deployment.ShouldStop)
@@ -179,8 +184,10 @@ namespace GH.Systems
 					}
 
 					velocity.Value = velocityDirection * speed;
-				}
-			}
+                }
+
+                NaNDebugger.IsNan(velocity.Value.x, $"[{jobIndex}, {entity.Index}] velocity");
+            }
 		}
 
 		private struct RemoveCompletedDeploymentsJob : IJob

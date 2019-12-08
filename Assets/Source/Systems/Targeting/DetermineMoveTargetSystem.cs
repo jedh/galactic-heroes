@@ -1,4 +1,5 @@
-﻿using GH.Components;
+﻿using GH.Utils;
+using GH.Components;
 using GH.SystemGroups;
 using Unity.Burst;
 using Unity.Collections;
@@ -92,10 +93,7 @@ namespace GH.Systems
 							direction = math.normalizesafe(direction);
 							var optimalPosition = translation.Value + (direction * math.sqrt(combatMovement.OptimalRangeSq));
 
-							if (!float.IsNaN(targetPosition.Value.x))
-							{
-								Debug.Log("target nan");
-							}
+                            NaNDebugger.IsNan(targetPosition.Value.x, "target nan");
 
 							deployToPosition.Position = optimalPosition;
 						}
