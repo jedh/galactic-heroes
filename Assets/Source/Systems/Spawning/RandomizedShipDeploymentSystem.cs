@@ -44,7 +44,6 @@ namespace GH.Systems
 				translation.Value = startingPosition;
 
 				PostUpdateCommands.AddComponent(entity, new DeployToPosition() { Position = randomPosition, ShouldStop = true });
-
 				PostUpdateCommands.RemoveComponent<InitialDeploy>(entity);
 			});
 		}
