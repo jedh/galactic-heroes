@@ -50,19 +50,21 @@ namespace GH.Systems
 		// Jobs
 		//--------------------------
 
-		[ExcludeComponent(typeof(DeployToPosition), typeof(CombatMovement))]
-		struct BeginDeploymentJob : IJobForEachWithEntity<Target, Translation, WeaponStats, MovementStats>
+		[ExcludeComponent(typeof(CombatMovement))]
+		struct BeginDeploymentJob : IJobForEachWithEntity<Target, Translation, WeaponStats, MovementStats, DeployToPosition>
 		{
 			[ReadOnly]
 			public ComponentDataFromEntity<Translation> TranslationData;
 			public EntityCommandBuffer.Concurrent CommandBuffer;
 
-			public void Execute(Entity entity, int jobIndex, [ReadOnly] ref Target target, [ReadOnly] ref Translation translation, [ReadOnly] ref WeaponStats weaponStats, [ReadOnly] ref MovementStats movementStats)
+			public void Execute(Entity entity, int jobIndex, [ReadOnly] ref Target target, [ReadOnly] ref Translation translation, [ReadOnly] ref WeaponStats weaponStats, [ReadOnly] ref MovementStats movementStats, ref DeployToPosition deployToPosition)
 			{
 				if (TranslationData.Exists(target.TargetEntity))
 				{
 					var position = TranslationData[target.TargetEntity];
-					CommandBuffer.AddComponent(jobIndex, entity, new DeployToPosition() { Position = position.Value, ShouldStop = !movementStats.DoesSwarm });
+					deployToPosition.Position = position.Value;
+					deployToPosition.ShouldStop = !movementStats.DoesSwarm;
+					//CommandBuffer.SetComponent(jobIndex, entity, new DeployToPosition() { Position = position.Value, ShouldStop = !movementStats.DoesSwarm });
 					CommandBuffer.AddComponent(jobIndex, entity, new CombatMovement()
 					{
 						MinRangeSq = weaponStats.MinRange * weaponStats.MinRange,
@@ -93,7 +95,7 @@ namespace GH.Systems
 							direction = math.normalizesafe(direction);
 							var optimalPosition = translation.Value + (direction * math.sqrt(combatMovement.OptimalRangeSq));
 
-                            NaNDebugger.IsNan(targetPosition.Value.x, "target nan");
+							NaNDebugger.IsNan(targetPosition.Value.x, "target nan");
 
 							deployToPosition.Position = optimalPosition;
 						}

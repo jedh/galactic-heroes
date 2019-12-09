@@ -83,11 +83,11 @@ namespace GH.Systems
 								ref Translation translation,
 								ref Velocity velocity,
 								ref AngularVelocity angularVelocity)
-            {
-                NaNDebugger.IsNan(deployment.Position.x, $"[{jobIndex}, {entity.Index}] deployment.Position");
-                NaNDebugger.IsNan(translation.Value.x, $"[{jobIndex}, {entity.Index}] translation");
+			{
+				NaNDebugger.IsNan(deployment.Position.x, $"[{jobIndex}, {entity.Index}] deployment.Position");
+				NaNDebugger.IsNan(translation.Value.x, $"[{jobIndex}, {entity.Index}] translation");
 
-                float3 toTarget = deployment.Position - translation.Value;
+				float3 toTarget = deployment.Position - translation.Value;
 				float distance = math.length(toTarget);
 
 				if (deployment.ShouldStop && distance <= k_DistanceTolerance)
@@ -96,7 +96,7 @@ namespace GH.Systems
 					angularVelocity.Velocity = 0f;
 					translation.Value = deployment.Position;
 
-					CompletedDeployments.Enqueue(new CompletedDeployment() { Entity = entity, JobIndex = jobIndex });
+					//CompletedDeployments.Enqueue(new CompletedDeployment() { Entity = entity, JobIndex = jobIndex });
 
 					return; // we're there, stop.
 				}
@@ -107,13 +107,13 @@ namespace GH.Systems
 				float3 velocityDirection = speed == 0f ? forward : math.normalize(velocity.Value);
 
 				toTarget = toTarget / distance; // normalize
-                float costheta = distance == 0f ? 1 : math.dot(toTarget, forward);
+				float costheta = distance == 0f ? 1 : math.dot(toTarget, forward);
 
 
 
-                // Rotation
-                if(distance != 0f)
-                {
+				// Rotation
+				if (distance != 0f)
+				{
 					float3 rotationAxis = costheta == -1 || costheta == 1 ? math.up() : math.normalize(math.cross(forward, toTarget));
 					float rotationDirection = math.saturate(math.sign(math.dot(rotationAxis, math.up())) + 1) * 2 - 1;  // -1 or 1
 					float rotationSpeed = math.radians(stats.RotationSpeed) * rotationDirection;
@@ -140,12 +140,12 @@ namespace GH.Systems
 					angularVelocity.Velocity = rotationSpeed;
 				}
 
-                NaNDebugger.IsNan(angularVelocity.Axis.x, $"[{jobIndex}, {entity.Index}] rotationAxis");
-                NaNDebugger.IsNan(angularVelocity.Axis.x, $"[{jobIndex}, {entity.Index}] rotationSpeed");
-                NaNDebugger.IsNan(velocityDirection.x, $"[{jobIndex}, {entity.Index}] velocityDirection");
+				NaNDebugger.IsNan(angularVelocity.Axis.x, $"[{jobIndex}, {entity.Index}] rotationAxis");
+				NaNDebugger.IsNan(angularVelocity.Axis.x, $"[{jobIndex}, {entity.Index}] rotationSpeed");
+				NaNDebugger.IsNan(velocityDirection.x, $"[{jobIndex}, {entity.Index}] velocityDirection");
 
-                // Translation
-                {
+				// Translation
+				{
 					if (costheta >= stats.ThrustTolerance)  // have we turned enough to begin moving forward?
 					{
 						if (deployment.ShouldStop)
@@ -184,10 +184,10 @@ namespace GH.Systems
 					}
 
 					velocity.Value = velocityDirection * speed;
-                }
+				}
 
-                NaNDebugger.IsNan(velocity.Value.x, $"[{jobIndex}, {entity.Index}] velocity");
-            }
+				NaNDebugger.IsNan(velocity.Value.x, $"[{jobIndex}, {entity.Index}] velocity");
+			}
 		}
 
 		private struct RemoveCompletedDeploymentsJob : IJob

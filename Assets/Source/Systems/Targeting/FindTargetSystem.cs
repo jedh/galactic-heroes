@@ -89,6 +89,8 @@ namespace GH.Systems
 						}
 					}
 				}
+
+				Debug.Log("found target");
 			}
 		}
 

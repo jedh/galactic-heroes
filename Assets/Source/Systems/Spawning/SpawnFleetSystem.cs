@@ -61,71 +61,77 @@ namespace GH.Systems
 
 				//}; 
 
-				var shipEntities = new NativeArray<Entity>(spawnFleet.ShipCount * spawnFleet.SquadSize, Allocator.Temp);
-
-				var ent = EntityManager.CreateEntity();
+				if (spawnFleet.ShipCount > 0)
 				{
-					// do this once only.
-					EntityManager.AddComponent<Ship>(ent);
-					EntityManager.AddComponent<MovementStats>(ent);
-					EntityManager.AddComponent<LocalToWorld>(ent);
-					EntityManager.AddComponent<Translation>(ent);
-					EntityManager.AddComponent<Rotation>(ent);
-					EntityManager.AddComponent<Velocity>(ent);
-					EntityManager.AddComponent<AngularVelocity>(ent);
-					EntityManager.AddComponent<FindTarget>(ent);
-					EntityManager.AddComponent<InitialDeploy>(ent);
-					EntityManager.AddComponent<WeaponStats>(ent);
 
-					EntityManager.AddSharedComponentData(ent, sharedFleetGrouping);
+					var shipEntities = new NativeArray<Entity>(spawnFleet.ShipCount * spawnFleet.SquadSize, Allocator.Temp);
 
-					EntityManager.SetComponentData(ent, ship);
-					EntityManager.SetComponentData(ent, movementStats);
-					EntityManager.SetComponentData(ent, localToWorld);
-					EntityManager.SetComponentData(ent, translation);
-					EntityManager.SetComponentData(ent, rotation);
-					EntityManager.SetComponentData(ent, moveSpeed);
-					EntityManager.SetComponentData(ent, rotateSpeed);
-					EntityManager.SetComponentData(ent, deploy);
-					EntityManager.SetComponentData(ent, findTarget);
-					EntityManager.SetComponentData(ent, weaponStats);
-				}
-
-				// apply the above to all spawned entities.
-				EntityManager.Instantiate(ent, shipEntities);
-
-				var index = 0;
-				for (var i = 0; i < spawnFleet.ShipCount; i++)
-				{
-					SharedSquadGrouping sharedSquadGrouping = new SharedSquadGrouping();
-					if (spawnFleet.SquadSize > 1)
+					var ent = EntityManager.CreateEntity();
 					{
-						sharedSquadGrouping.ID = GetHashCode();
+						// do this once only.
+						EntityManager.AddComponent<Ship>(ent);
+						EntityManager.AddComponent<MovementStats>(ent);
+						EntityManager.AddComponent<LocalToWorld>(ent);
+						EntityManager.AddComponent<Translation>(ent);
+						EntityManager.AddComponent<Rotation>(ent);
+						EntityManager.AddComponent<Velocity>(ent);
+						EntityManager.AddComponent<AngularVelocity>(ent);
+						EntityManager.AddComponent<FindTarget>(ent);
+						EntityManager.AddComponent<InitialDeploy>(ent);
+						EntityManager.AddComponent<WeaponStats>(ent);
+
+						EntityManager.AddSharedComponentData(ent, sharedFleetGrouping);
+
+						EntityManager.SetComponentData(ent, ship);
+						EntityManager.SetComponentData(ent, movementStats);
+						EntityManager.SetComponentData(ent, localToWorld);
+						EntityManager.SetComponentData(ent, translation);
+						EntityManager.SetComponentData(ent, rotation);
+						EntityManager.SetComponentData(ent, moveSpeed);
+						EntityManager.SetComponentData(ent, rotateSpeed);
+						EntityManager.SetComponentData(ent, deploy);
+						EntityManager.SetComponentData(ent, findTarget);
+						EntityManager.SetComponentData(ent, weaponStats);
 					}
 
-					for (var j = 0; j < spawnFleet.SquadSize; j++)
+					// apply the above to all spawned entities.
+					EntityManager.Instantiate(ent, shipEntities);
+
+					EntityManager.DestroyEntity(ent);
+
+					var index = 0;
+					for (var i = 0; i < spawnFleet.ShipCount; i++)
 					{
-						ship.InstanceID = index;
-
-						//if (spawnFleet.DoesSwarm)
-						//{
-						//	PostUpdateCommands.AddComponent(shipEntities[index], swarmCombatMovement);
-						//}
-						//else
-						//{
-						//	PostUpdateCommands.AddComponent(shipEntities[index], rangedCombatMovement);
-						//}
-
+						SharedSquadGrouping sharedSquadGrouping = new SharedSquadGrouping();
 						if (spawnFleet.SquadSize > 1)
 						{
-							PostUpdateCommands.AddSharedComponent(shipEntities[index], sharedSquadGrouping);
+							sharedSquadGrouping.ID = GetHashCode();
 						}
 
-						index++;
-					}
-				}
+						for (var j = 0; j < spawnFleet.SquadSize; j++)
+						{
+							ship.InstanceID = index;
 
-				shipEntities.Dispose();
+							//if (spawnFleet.DoesSwarm)
+							//{
+							//	PostUpdateCommands.AddComponent(shipEntities[index], swarmCombatMovement);
+							//}
+							//else
+							//{
+							//	PostUpdateCommands.AddComponent(shipEntities[index], rangedCombatMovement);
+							//}
+
+							if (spawnFleet.SquadSize > 1)
+							{
+								PostUpdateCommands.AddSharedComponent(shipEntities[index], sharedSquadGrouping);
+							}
+
+							index++;
+						}
+					}
+
+					shipEntities.Dispose();
+				}
 
 				PostUpdateCommands.AddComponent(entity, default(SpawnEntityState));
 				PostUpdateCommands.DestroyEntity(entity);
