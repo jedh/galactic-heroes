@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1e1052b47a0321b41968d8cf5d7c7103, type: 3}
-  m_Name: ShipSpecs_Empire_Corvette
+  m_Name: ShipSpecs_Republic_Fighter
   m_EditorClassIdentifier: 
-  ID: 16998
-  NameID: Empire_Corvette
+  ID: 17460
+  NameID: Republic_Cruiser
   Acceleration: 10
-  Deceleration: 3
-  TopSpeed: 5
-  RotationSpeed: 50
-  ThrustTolerance: 0.9
-  MaxSpeedToTurn: 0
-  DoesSwarm: 0
+  Deceleration: 15
+  TopSpeed: 10
+  RotationSpeed: 400
+  ThrustTolerance: -1
+  MaxSpeedToTurn: 25
+  DoesSwarm: 1
   Hull: 0
   Shields: 0
   ShieldRechargeRate: 0
   CrewCount: 0
   SquadSize: 1
-  WeaponSpecs: {fileID: 11400000, guid: ed276273dfa7f874db63f80b4944907f, type: 2}
+  WeaponSpecs: {fileID: 11400000, guid: 6f501af816acd3144bbfeb36edf847b3, type: 2}

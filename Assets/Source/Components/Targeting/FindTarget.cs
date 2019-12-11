@@ -7,5 +7,6 @@ namespace GH.Components
 {
 	public struct FindTarget : IComponentData
 	{
+		public Entity FoundEntity;
 	}
 }
