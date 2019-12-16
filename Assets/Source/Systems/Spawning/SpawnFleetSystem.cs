@@ -30,7 +30,16 @@ namespace GH.Systems
 					m_SharedFleetGroupingMap.Add(spawnFleet.FleetID, sharedFleetGrouping);
 				}
 
-				var ship = new Ship() { ID = spawnFleet.ShipID, FleetID = spawnFleet.FleetID };
+				var ship = new Ship()
+                {
+                    ID = spawnFleet.ShipID,
+                    FleetID = spawnFleet.FleetID,
+                    HP = spawnFleet.HP,
+                    HullArc = spawnFleet.HullArc,
+                    Hull = spawnFleet.Hull,
+                    ShieldArc = spawnFleet.ShieldArc,
+                    Shield = spawnFleet.Shield
+                };
 				var deploy = new InitialDeploy() { FleetID = spawnFleet.FleetID };
 				var translation = new Translation() { Value = new float3(100, 0, 100) };
 				var rotation = new Rotation() { Value = quaternion.identity };

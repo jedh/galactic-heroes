@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Entities;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace GH.Components
@@ -33,5 +34,13 @@ namespace GH.Components
         public bool DoesSwarm;
 
         public int SquadSize;
+
+        public float3 HullArc;
+        public float3 Hull;
+
+        public float3 ShieldArc;
+        public float3 Shield;
+
+        public float HP;
     }
 }

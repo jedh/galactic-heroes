@@ -44,11 +44,6 @@ namespace GH.Systems
 				TargetTranslations = targetTranslations
 			}.Schedule(this, inputDeps);
 
-			findTargetsJob.Complete();
-			targetEntities.Dispose();
-			targetShips.Dispose();
-			targetTranslations.Dispose();
-
 			var addFoundTargetsJob = new AddTargetsJob()
 			{
 				CommandBuffer = m_EntityCommandBufferSystem.CreateCommandBuffer().ToConcurrent()
@@ -70,9 +65,9 @@ namespace GH.Systems
 		[ExcludeComponent(typeof(Target))]
 		public struct FindTargetsJob : IJobForEach<FindTarget, Ship, Translation>
 		{
-			[ReadOnly] public NativeArray<Entity> TargetEntities;
-			[ReadOnly] public NativeArray<Ship> TargetShips;
-			[ReadOnly] public NativeArray<Translation> TargetTranslations;
+			[ReadOnly, DeallocateOnJobCompletion] public NativeArray<Entity> TargetEntities;
+			[ReadOnly, DeallocateOnJobCompletion] public NativeArray<Ship> TargetShips;
+			[ReadOnly, DeallocateOnJobCompletion] public NativeArray<Translation> TargetTranslations;
 
 			public void Execute(ref FindTarget findTarget, [ReadOnly] ref Ship ship, [ReadOnly] ref Translation translation)
 			{
@@ -90,7 +85,7 @@ namespace GH.Systems
 					}
 				}
 
-				Debug.Log("found target");
+				//Debug.Log("found target");
 			}
 		}
 
@@ -104,7 +99,7 @@ namespace GH.Systems
 			{
 				if (findTarget.FoundEntity != Entity.Null)
 				{
-					Debug.Log("Add target");
+					//Debug.Log("Add target");
 					CommandBuffer.AddComponent(index, entity, new Target() { TargetEntity = findTarget.FoundEntity });
 					CommandBuffer.RemoveComponent(index, entity, typeof(FindTarget));
 				}

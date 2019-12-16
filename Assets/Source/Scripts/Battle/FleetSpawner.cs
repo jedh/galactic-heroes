@@ -41,7 +41,12 @@ namespace GH.Scripts
                     SquadSize = shipTypeEntry.ShipSpecs.SquadSize,
                     ThrustTolerance = shipTypeEntry.ShipSpecs.ThrustTolerance,
                     MaxSpeedToTurn = shipTypeEntry.ShipSpecs.MaxSpeedToTurn,
-                    DoesSwarm = shipTypeEntry.ShipSpecs.DoesSwarm
+                    DoesSwarm = shipTypeEntry.ShipSpecs.DoesSwarm,
+                    HP = shipTypeEntry.ShipSpecs.HP,
+                    HullArc = shipTypeEntry.ShipSpecs.HullArc,
+                    Hull = shipTypeEntry.ShipSpecs.Hull,
+                    ShieldArc = shipTypeEntry.ShipSpecs.ShieldArc,
+                    Shield = shipTypeEntry.ShipSpecs.Shield
                 };
 
                 var weaponSpecs = shipTypeEntry.ShipSpecs.WeaponSpecs;
