@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e1052b47a0321b41968d8cf5d7c7103, type: 3}
   m_Name: ShipSpecs_Republic_Cruiser
   m_EditorClassIdentifier: 
-  ID: 20448
+  ID: 19176
   NameID: Republic_Destroyer
   Acceleration: 5
   Deceleration: 1
@@ -21,9 +21,24 @@ MonoBehaviour:
   ThrustTolerance: 0.2
   MaxSpeedToTurn: 25
   DoesSwarm: 0
-  Hull: 0
-  Shields: 0
+  HullArc:
+    x: 0.2
+    y: -0.6
+    z: -1
+  Hull:
+    x: 5
+    y: 3
+    z: 1
+  ShieldArc:
+    x: 0.2
+    y: -0.6
+    z: -1
+  Shield:
+    x: 2
+    y: 0
+    z: 0
   ShieldRechargeRate: 0
   CrewCount: 0
+  HP: 2000
   SquadSize: 1
   WeaponSpecs: {fileID: 11400000, guid: ed276273dfa7f874db63f80b4944907f, type: 2}
