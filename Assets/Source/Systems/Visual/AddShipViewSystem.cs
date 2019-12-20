@@ -37,7 +37,7 @@ namespace GH.Systems
 
 		protected override void OnUpdate()
 		{
-			Entities.WithNone<ViewState>().ForEach((Entity entity, ref Ship ship) =>
+			Entities.WithNone<View>().ForEach((Entity entity, ref Ship ship) =>
 			{
 				ShipViewData shipViewData;
 				if (m_AssetManager.ShipViewDataMap.TryGetValue(ship.ID, out shipViewData))
@@ -60,7 +60,7 @@ namespace GH.Systems
 					}
 
 					PostUpdateCommands.AddSharedComponent(entity, renderMesh);
-					PostUpdateCommands.AddComponent(entity, default(ViewState));
+					PostUpdateCommands.AddComponent(entity, default(View));
 
 					//var go = Object.Instantiate(shipViewData.ViewPrefab, m_ViewContainer, false);
 					//go.name = $"Ship{ship.InstanceID}";
