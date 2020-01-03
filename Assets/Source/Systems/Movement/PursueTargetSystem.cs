@@ -3,6 +3,7 @@ using GH.SystemGroups;
 using GH.Utils;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
@@ -108,6 +109,7 @@ namespace GH.Systems
 		}
 
 		// Update pursuit targets based on whether ships swarm or not.       
+		[BurstCompile]
 		struct UpdatePursuitJob : IJobForEachWithEntity<Target, DeployToPosition, Translation, CombatMovement, PursueTarget, MovementStats>
 		{
 			[ReadOnly]
