@@ -84,8 +84,6 @@ namespace GH.Systems
 						}
 					}
 				}
-
-				Debug.Log("found target");
 			}
 		}
 
@@ -99,7 +97,6 @@ namespace GH.Systems
 			{
 				if (findTarget.FoundEntity != Entity.Null)
 				{
-					//Debug.Log("Add target");
 					CommandBuffer.AddComponent(index, entity, new Target() { TargetEntity = findTarget.FoundEntity });
 					CommandBuffer.RemoveComponent(index, entity, typeof(FindTarget));
 				}

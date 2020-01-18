@@ -110,17 +110,25 @@ namespace GH.Systems
 				toTarget = toTarget / distance; // normalize
 				float costheta = distance == 0f ? 1 : math.dot(toTarget, forward);
 
+                NaNDebugger.IsNan(costheta, $"[{jobIndex}, {entity.Index}] costheta");
 
-
-				// Rotation
-				if (distance != 0f)
+                // Rotation
+                if (distance != 0f)
 				{
-					float3 rotationAxis = costheta == -1 || costheta == 1 ? math.up() : math.normalize(math.cross(forward, toTarget));
-					float rotationDirection = math.saturate(math.sign(math.dot(rotationAxis, math.up())) + 1) * 2 - 1;  // -1 or 1
-					float rotationSpeed = math.radians(stats.RotationSpeed) * rotationDirection;
-					rotationAxis = rotationAxis * rotationDirection;
+                    float3 cross = math.cross(forward, toTarget);
+                    float isError = math.step(math.lengthsq(cross), float.Epsilon); // if the lengthsq of cross is smaller than epsilon then the cross has a length of zero, this would cause an error when normalized.
 
-					if (costheta >= stats.ThrustTolerance)  // have we turned enough to begin moving forward?
+                    float3 rotationAxis = math.normalize(cross * (1 - isError) + math.up() * isError);  // cross sometimes comes back as (0,0,0) despite dot not being 1 or -1, so if its zero use up...
+                    float rotationDirection = math.saturate(math.sign(math.dot(rotationAxis, math.up())) + 1) * 2 - 1;  // -1 or 1
+					float rotationSpeed = math.radians(stats.RotationSpeed) * rotationDirection;
+
+                    NaNDebugger.IsNan(rotationAxis.x, $"[{jobIndex}, {entity.Index}] rotationAxis, cosTheta: {costheta}, dot: {math.dot(toTarget, forward)}, distance: {distance}, cross: {math.cross(forward, toTarget)}");
+				    NaNDebugger.IsNan(rotationDirection, $"[{jobIndex}, {entity.Index}] rotationDirection");
+
+                    rotationAxis = rotationAxis * rotationDirection;
+
+
+                    if (costheta >= stats.ThrustTolerance)  // have we turned enough to begin moving forward?
 					{
 						velocityDirection = forward;
 					}
@@ -141,9 +149,9 @@ namespace GH.Systems
 					angularVelocity.Velocity = rotationSpeed;
 				}
 
-				NaNDebugger.IsNan(angularVelocity.Axis.x, $"[{jobIndex}, {entity.Index}] rotationAxis");
-				NaNDebugger.IsNan(angularVelocity.Axis.x, $"[{jobIndex}, {entity.Index}] rotationSpeed");
 				NaNDebugger.IsNan(velocityDirection.x, $"[{jobIndex}, {entity.Index}] velocityDirection");
+				NaNDebugger.IsNan(angularVelocity.Axis.x, $"[{jobIndex}, {entity.Index}] angularVelocity.Axis");
+				NaNDebugger.IsNan(angularVelocity.Velocity, $"[{jobIndex}, {entity.Index}] angularVelocity.Velocity");
 
 				// Translation
 				{
