@@ -13,8 +13,9 @@ namespace GH.Systems
 {
 	[UpdateInGroup(typeof(BattleLogicSystemGroup)), UpdateBefore(typeof(TranslationSystem)), UpdateBefore(typeof(RotationSystem))]  // updates before so that deltaTime calculations are correct.
 	[UpdateAfter(typeof(FindTargetSystem))]
-	[UpdateAfter(typeof(DetermineMoveTargetSystem))]
-	public class DeployToPositionSystem : JobComponentSystem
+	//[UpdateAfter(typeof(DetermineMoveTargetSystem))]
+	[UpdateAfter(typeof(PursueTargetSystem))]
+    public class DeployToPositionSystem : JobComponentSystem
 	{
 		private const float k_DistanceTolerance = 0.02f;
 		private const float k_AngleTolerance = 0.9999f;

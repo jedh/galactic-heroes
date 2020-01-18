@@ -12,33 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e1052b47a0321b41968d8cf5d7c7103, type: 3}
   m_Name: ShipSpecs_Republic_Fighter
   m_EditorClassIdentifier: 
-  ID: 16122
+  ID: 14798
   NameID: Republic_Cruiser
   Acceleration: 10
   Deceleration: 15
-  TopSpeed: 10
-  RotationSpeed: 400
+  TopSpeed: 12
+  RotationSpeed: 200
   ThrustTolerance: -1
   MaxSpeedToTurn: 25
   DoesSwarm: 1
-  HullArc:
-    x: 0.2
-    y: -0.6
-    z: -1
-  Hull:
-    x: 1
-    y: 1
-    z: 0
-  ShieldArc:
-    x: 0.2
-    y: -0.6
-    z: -1
-  Shield:
-    x: 0
-    y: 0
-    z: 0
+  Hull: 0
+  Shields: 0
   ShieldRechargeRate: 0
   CrewCount: 0
-  HP: 600
   SquadSize: 1
   WeaponSpecs: {fileID: 11400000, guid: 6f501af816acd3144bbfeb36edf847b3, type: 2}

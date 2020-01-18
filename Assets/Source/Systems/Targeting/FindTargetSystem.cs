@@ -85,7 +85,7 @@ namespace GH.Systems
 					}
 				}
 
-				//Debug.Log("found target");
+				Debug.Log("found target");
 			}
 		}
 

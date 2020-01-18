@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1e1052b47a0321b41968d8cf5d7c7103, type: 3}
-  m_Name: ShipSpecs_Empire_Fighter
+  m_Name: ShipSpecs_Fighter_Squad
   m_EditorClassIdentifier: 
-  ID: 14794
-  NameID: Empire_Corvette
-  Acceleration: 8
-  Deceleration: 10
-  TopSpeed: 8
-  RotationSpeed: 100
+  ID: 14788
+  NameID: Fighter_Squad
+  Acceleration: 10
+  Deceleration: 12
+  TopSpeed: 14
+  RotationSpeed: 140
   ThrustTolerance: -1
   MaxSpeedToTurn: 25
   DoesSwarm: 1
@@ -25,5 +25,5 @@ MonoBehaviour:
   Shields: 0
   ShieldRechargeRate: 0
   CrewCount: 0
-  SquadSize: 1
+  SquadSize: 5
   WeaponSpecs: {fileID: 11400000, guid: 6f501af816acd3144bbfeb36edf847b3, type: 2}
